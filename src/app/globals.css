@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-primary: #6366f1;
+  --color-secondary: #22c55e;
+  --color-background: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-elevated: #334155;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(148, 163, 184, 0.15);
+}
+
+/* Apple-inspired smooth scrolling & selection */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: inherit;
+}
+
+/* Glass morphism utility */
+.glass {
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #22c55e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated gradient border */
+.gradient-border {
+  background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+    linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(34, 197, 94, 0.4)) border-box;
+  border: 1px solid transparent;
+}
+
+/* Section container */
+section {
+  scroll-margin-top: 5rem;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
