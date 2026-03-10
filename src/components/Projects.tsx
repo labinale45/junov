@@ -98,7 +98,7 @@ const projects = [
     description:
       "A book printing management platform developed during my internship. Manages book orders, printing workflow, and publishing processes.",
     tech: ["Next.js", "Prisma", "Tailwind", "TypeScript"],
-    showcaseImage: "/pressManagement.png",
+    showcaseImage: "/pressmanagement.png",
   },
 ];
 
