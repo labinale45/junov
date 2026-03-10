@@ -1,27 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FaCode, FaGlobe, FaBrain, FaPaintBrush } from "react-icons/fa";
 
 const skillGroups = [
   {
     title: "Programming",
-    icon: "💻",
-    skills: ["Java", "JavaScript", "TypeScript", "Python"],
+    icon: <FaCode />,
+    skills: ["Java", "JavaScript", "TypeScript", "Python", "C", "C#"],
   },
   {
     title: "Web Development",
-    icon: "🌐",
+    icon: <FaGlobe />,
     skills: ["Next.js", "React", "Tailwind CSS", "Prisma", "Supabase"],
   },
   {
     title: "AI / Machine Learning",
-    icon: "🧠",
+    icon: <FaBrain />,
     skills: ["Neural Networks", "Machine Learning Fundamentals", "AI Integration"],
   },
   {
     title: "Creative Tools",
-    icon: "🎨",
-    skills: ["Blender", "Unity", "Godot", "Photoshop"],
+    icon: <FaPaintBrush />,
+    skills: ["Blender", "Unity", "Godot", "Photoshop","DaVinci Resolve"]
   },
 ];
 

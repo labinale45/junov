@@ -4,35 +4,47 @@ import { motion } from "framer-motion";
 
 const experiences = [
   {
-    title: "Computer Trainer",
-    org: "Present",
-    period: "Present",
-    description:
-      "Teaching programming and software development to students ranging from beginner to advanced level.",
-    responsibilities: [
-      "Teaching Java programming",
-      "Teaching web development",
-      "Lab mentoring",
-    ],
-  },
-  {
     title: "Co-Founder & Senior Developer",
     org: "TypingOwl",
-    period: null,
-    description: "Leading platform development and product design.",
+    period: "2025 – Present",
+    description: "Leading development of typingowl.com, an educational typing platform.",
     responsibilities: [
-      "Platform architecture",
-      "Frontend development",
-      "Product design",
-      "Feature implementation",
+      "Managing content, SEO, and user experience for scaling",
+      "Integrating modern web technologies for performance and accessibility",
     ],
   },
   {
-    title: "Internship",
+    title: "Computer Trainer",
+    org: "Present",
+    period: "2025 – Present",
+    description:
+      "Teaching students from basic to advanced computer science concepts.",
+    responsibilities: [
+      "Conducting C programming and 3-month web development course",
+      "Designing structured curriculum with practical projects and lab sessions",
+    ],
+  },
+  {
+    title: "Software Developer Intern",
     org: "Inpro",
-    period: null,
-    description: "Press Management System development.",
-    project: "Press Management System",
+    period: "3 Months",
+    description: "Developed a Press Management System for book printing.",
+    responsibilities: [
+      "Built website using Next.js, Prisma, Tailwind, and TypeScript",
+      "Worked on frontend and backend, improving UI/UX and optimizing database queries",
+      "Gained hands-on experience in SDLC, teamwork, and project management",
+    ],
+  },
+  {
+    title: "Computer Teacher",
+    org: "Damauli Future Star Boarding School (DFS)",
+    period: "May 2019 – September 2022",
+    description: "Taught computer science and guided students in project development.",
+    responsibilities: [
+      "Taught programming, web development, and database management",
+      "Conducted practical sessions and guided students in project development",
+      "Assisted in maintaining school computer labs and upgrading software/hardware",
+    ],
   },
 ];
 

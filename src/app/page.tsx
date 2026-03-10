@@ -24,9 +24,10 @@ const jsonLd = {
   knowsAbout: [
     "Artificial Intelligence",
     "Web Development",
-    "Game AI",
     "Next.js",
     "React",
+    "TypeScript",
+    "Teaching & Mentoring",
   ],
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com",
 };

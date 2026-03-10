@@ -3,10 +3,11 @@
 import { motion } from "framer-motion";
 
 const achievements = [
-  "Built multiple full-stack applications",
-  "Co-Founded a tech platform (TypingOwl)",
-  "Developed AI experimental projects",
-  "Teaching programming professionally",
+  "Full Stack Web Development Training – InPro Academy (2023)",
+  "Elements of AI – University of Helsinki (2 ECTS)",
+  "Networking Internship – Nepal Telecom (recognized for outstanding performance)",
+  "Computer Teacher Certification",
+  "Co-Founded TypingOwl – educational typing platform",
 ];
 
 export function Achievements() {

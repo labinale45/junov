@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -12,6 +11,7 @@ const navLinks = [
   { href: "#projects", label: "Projects", icon: FolderIcon },
   { href: "#skills", label: "Skills", icon: SparklesIcon },
   { href: "#experience", label: "Experience", icon: BriefcaseIcon },
+  { href: "#education", label: "Education", icon: GraduationIcon },
   { href: "#contact", label: "Contact", icon: MailIcon },
 ];
 
@@ -63,12 +63,31 @@ function BriefcaseIcon() {
   );
 }
 
+function GraduationIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5z" />
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+    </svg>
+  );
+}
+
 function MailIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
     </svg>
   );
+}
+
+function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  const id = href.replace("#", "");
+  const el = document.getElementById(id);
+  if (el) {
+    e.preventDefault();
+    el.scrollIntoView({ behavior: "smooth" });
+    window.history.replaceState(null, "", href);
+  }
 }
 
 export function Header() {
@@ -95,7 +114,7 @@ export function Header() {
             className="fixed top-0 left-0 right-0 z-50"
           >
             <nav className="container mx-auto px-6 lg:px-12 py-4 flex justify-between items-center">
-              <Link href="#hero" className="flex items-center gap-3">
+              <a href="#hero" onClick={(e) => scrollToSection(e, "#hero")} className="flex items-center gap-3">
                 <Image
                   src="/Logo.png"
                   alt="Rabin Ale"
@@ -106,16 +125,17 @@ export function Header() {
                 <span className="text-2xl font-bold mt-auto text-gray-300 hover:text-white transition-colors">
                   Mr.J
                 </span>
-              </Link>
+              </a>
               <div className="hidden md:flex gap-8">
                 {navLinks.map((link) => (
-                  <Link
+                  <a
                     key={link.href}
                     href={link.href}
+                    onClick={(e) => scrollToSection(e, link.href)}
                     className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 ))}
               </div>
             </nav>
@@ -134,9 +154,10 @@ export function Header() {
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 return (
-                  <Link
+                  <a
                     key={link.href}
                     href={link.href}
+                    onClick={(e) => scrollToSection(e, link.href)}
                     className="group relative px-3 cursor-pointer"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full text-slate-300 hover:text-indigo-400 transition-colors">
@@ -145,7 +166,7 @@ export function Header() {
                     <span className="absolute -top-10 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap origin-bottom scale-0 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm font-medium text-slate-200 shadow-lg transition-all duration-300 ease-in-out group-hover:scale-100">
                       {link.label}
                     </span>
-                  </Link>
+                  </a>
                 );
               })}
             </div>
