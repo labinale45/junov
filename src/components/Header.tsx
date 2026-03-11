@@ -141,14 +141,14 @@ export function Header() {
             </nav>
           </motion.header>
         ) : (
-          /* Floating nav - center bottom when scrolled */
+          /* Floating nav - center bottom when scrolled (hidden on mobile) */
           <motion.div
             key="floating-nav"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-1/2 bottom-6 -translate-x-1/2 z-50"
+            className="fixed left-1/2 bottom-6 -translate-x-1/2 z-50 hidden md:block"
           >
             <div className="border border-slate-600/90 glass py-3 flex gap-1 shadow-xl rounded-2xl px-2">
               {navLinks.map((link) => {

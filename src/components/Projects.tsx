@@ -92,14 +92,7 @@ const projects = [
       "Online test platform built with Java for conducting quizzes and assessments. Features include user login, multiple-choice questions, and result evaluation.",
     tech: ["Java"],
     showcaseImage: "/onlineTest.png",
-  },
-  {
-    title: "Press Management System",
-    description:
-      "A book printing management platform developed during my internship. Manages book orders, printing workflow, and publishing processes.",
-    tech: ["Next.js", "Prisma", "Tailwind", "TypeScript"],
-    showcaseImage: "/pressmanagement.png",
-  },
+  }
 ];
 
 const CARD_WIDTH = 320;
