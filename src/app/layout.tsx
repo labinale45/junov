@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { AdSenseScript } from "@/components/AdSense";
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -104,7 +105,22 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* Google Analytics */}
+
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-QF0211653G"
+        ></Script>
+        <Script>
+          {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-QF0211653G');
+            `}
+        </Script>
         {/* AdSense: Set NEXT_PUBLIC_ADSENSE_ID in .env to enable */}
+
+
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-slate-950 text-slate-100`}
