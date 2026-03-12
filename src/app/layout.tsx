@@ -45,12 +45,22 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Rabin Ale - Portfolio",
     title: "Rabin Ale | Co-Founder & Senior Developer @ TypingOwl",
-    description: "AI Developer • Full Stack Engineer • Building intelligent systems and scalable web platforms.",
+    description:
+      "AI Developer • Full Stack Engineer • Building intelligent systems and scalable web platforms.",
+    images: [
+      {
+        url: "/rabin-short.png",
+        width: 960,
+        height: 1200,
+        alt: "Rabin Ale - Co-Founder & Senior Developer @ TypingOwl",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rabin Ale | Co-Founder & Senior Developer",
     description: "AI Developer • Full Stack Engineer • TypingOwl Co-Founder",
+    images: ["/rabin-short.png"],
   },
   robots: {
     index: true,
@@ -65,6 +75,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
+  },
+  icons: {
+    icon: "/Logo.png",
+    shortcut: "/Logo.png",
+    apple: "/Logo.png",
   },
   verification: {
     // Add your verification codes when ready
