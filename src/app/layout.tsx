@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { AdSenseScript } from "@/components/AdSense";
+import { ADSENSE_PUBLISHER_ID } from "@/lib/adsense";
 import "./globals.css";
 import Script from "next/script";
 
@@ -10,7 +11,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -87,6 +88,9 @@ export const metadata: Metadata = {
     // google: "your-google-verification-code",
     // yandex: "your-yandex-verification-code",
   },
+  other: {
+    "google-adsense-account": ADSENSE_PUBLISHER_ID,
+  },
   category: "technology",
 };
 
@@ -111,16 +115,13 @@ export default function RootLayout({
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-QF0211653G"
         ></Script>
-        <Script>
+        <Script id="google-analytics">
           {`window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-QF0211653G');
             `}
         </Script>
-        {/* AdSense: Set NEXT_PUBLIC_ADSENSE_ID in .env to enable */}
-
-
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-slate-950 text-slate-100`}

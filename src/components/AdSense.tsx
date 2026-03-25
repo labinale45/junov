@@ -1,8 +1,9 @@
 "use client";
 
 import Script from "next/script";
+import { ADSENSE_PUBLISHER_ID } from "@/lib/adsense";
 
-const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_ID;
+const ADSENSE_ID = ADSENSE_PUBLISHER_ID;
 
 export function AdSenseScript() {
   if (!ADSENSE_ID) return null;

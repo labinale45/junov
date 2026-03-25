@@ -10,7 +10,7 @@ import { TechStack } from "@/components/TechStack";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
 const personJsonLd = {
   "@context": "https://schema.org",
