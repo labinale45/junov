@@ -7,6 +7,15 @@ export function Footer() {
         <div className="flex flex-col items-center gap-4 text-center text-slate-500 text-sm">
           <p>© {new Date().getFullYear()} Rabin Ale. All rights reserved.</p>
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-slate-400">
+            <Link href="/blog" className="hover:text-slate-200 transition-colors">
+              Blog
+            </Link>
+            <Link href="/tools" className="hover:text-slate-200 transition-colors">
+              Tools
+            </Link>
+            <Link href="/projects" className="hover:text-slate-200 transition-colors">
+              Projects
+            </Link>
             <Link href="/privacy-policy" className="hover:text-slate-200 transition-colors">
               Privacy Policy
             </Link>

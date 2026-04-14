@@ -9,6 +9,7 @@ import { Achievements } from "@/components/Achievements";
 import { TechStack } from "@/components/TechStack";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { LatestBlogPosts } from "@/components/LatestBlogPosts";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
@@ -55,11 +56,8 @@ const websiteJsonLd = {
   "@type": "WebSite",
   name: "Rabin Ale - Portfolio",
   url: siteUrl,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
+  description:
+    "Portfolio, blog, and developer tools by Rabin Ale—full-stack engineering, Java and web teaching, and project case studies.",
 };
 
 export default function Home() {
@@ -78,6 +76,7 @@ export default function Home() {
         <Hero />
         <About />
         <TypingOwlFeatured />
+        <LatestBlogPosts />
         <Projects />
         <Skills />
         <Experience />
