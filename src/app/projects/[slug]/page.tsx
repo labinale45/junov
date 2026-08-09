@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ArrowLeft, ChevronRight, ExternalLink, GitFork } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { ArticleBody } from "@/components/markdown/ArticleBody";
+import { Reveal } from "@/components/immersive/Reveal";
 import { getAllProjectSlugs, getProjectBySlug } from "@/content/projects/cases";
 import { getSiteUrl } from "@/lib/site";
 
@@ -73,65 +76,91 @@ export default async function ProjectCasePage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <main className="flex-1 container mx-auto px-6 lg:px-12 py-12 lg:py-16 max-w-3xl">
-        {project.showcaseImage ? (
-          <div className="relative w-full max-w-md mx-auto aspect-4/3 mb-10 rounded-xl overflow-hidden bg-slate-900/50 border border-slate-700/50">
-            <Image
-              src={project.showcaseImage}
-              alt=""
-              fill
-              className="object-contain p-4"
-              sizes="400px"
-              priority
-            />
+        <Reveal>
+          <div className="mb-6 flex items-center gap-3">
+            <BrandLogo size={32} />
+            <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-slate-500">
+              <Link href="/" className="rounded-md px-1.5 py-0.5 transition-colors hover:bg-white/5 hover:text-slate-300">
+                Home
+              </Link>
+              <ChevronRight className="h-3.5 w-3.5 text-slate-700" aria-hidden />
+              <Link href="/projects" className="rounded-md px-1.5 py-0.5 transition-colors hover:bg-white/5 hover:text-slate-300">
+                Projects
+              </Link>
+            </nav>
           </div>
-        ) : null}
-        <p className="text-xs text-indigo-400 font-medium uppercase tracking-wide mb-2">Case study</p>
-        <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4">{project.title}</h1>
-        <p className="text-lg text-slate-400 mb-8">{project.shortDescription}</p>
-        <div className="flex flex-wrap gap-2 mb-6">
-          <span className="px-2 py-1 rounded-lg text-xs bg-slate-800 text-slate-300">{project.projectType}</span>
-          {project.collaboration ? (
-            <span className="px-2 py-1 rounded-lg text-xs bg-slate-800 text-slate-300">{project.collaboration}</span>
+
+          {project.showcaseImage ? (
+            <div className="relative mx-auto mb-10 aspect-4/3 w-full max-w-md overflow-hidden rounded-2xl border border-white/[0.08] bg-slate-900/60 shadow-[0_16px_48px_-16px_rgba(99,102,241,0.35)]">
+              <Image src={project.showcaseImage} alt="" fill className="object-contain p-4" sizes="400px" priority />
+            </div>
           ) : null}
-          {project.contextLabel ? (
-            <span className="px-2 py-1 rounded-lg text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-              {project.contextLabel}
+
+          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-indigo-400">Case study</p>
+          <h1 className="mb-4 text-3xl font-bold text-white lg:text-4xl">{project.title}</h1>
+          <p className="mb-8 text-lg text-slate-400">{project.shortDescription}</p>
+
+          <div className="mb-6 flex flex-wrap gap-2">
+            <span className="rounded-full border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-1 text-[11px] font-medium text-indigo-300">
+              {project.projectType}
             </span>
-          ) : null}
-        </div>
-        <div className="flex flex-wrap gap-3 mb-10">
-          <Link
-            href={project.repoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-indigo-400 hover:text-indigo-300 font-medium"
-          >
-            View GitHub repo →
-          </Link>
-          {project.liveUrl ? (
+            {project.collaboration ? (
+              <span className="rounded-full border border-white/[0.08] bg-slate-800 px-2.5 py-1 text-[11px] font-medium text-slate-300">
+                {project.collaboration}
+              </span>
+            ) : null}
+            {project.contextLabel ? (
+              <span className="rounded-full border border-white/[0.08] bg-slate-800 px-2.5 py-1 text-[11px] font-medium text-slate-400">
+                {project.contextLabel}
+              </span>
+            ) : null}
+          </div>
+
+          <div className="mb-10 flex flex-wrap gap-3">
             <Link
-              href={project.liveUrl}
+              href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-emerald-300 hover:text-emerald-200 font-medium"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-slate-900 px-4 py-2 text-sm font-medium text-slate-200 transition-colors duration-200 ease-out hover:border-indigo-500/40 hover:text-white"
             >
-              Visit live product →
+              <GitFork className="h-4 w-4" aria-hidden />
+              View GitHub repo
             </Link>
-          ) : null}
-        </div>
-        <div className="flex flex-wrap gap-2 mb-10">
-          {project.tech.map((t) => (
-            <span key={t} className="px-2 py-1 rounded-lg text-xs bg-slate-800 text-slate-300">
-              {t}
-            </span>
-          ))}
-        </div>
-        <ArticleBody content={project.body} />
-        <div className="mt-16 pt-8 border-t border-slate-800 flex flex-wrap gap-6">
-          <Link href="/projects" className="text-indigo-400 hover:text-indigo-300 font-medium">
-            ← All projects
+            {project.liveUrl ? (
+              <Link
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all duration-200 ease-out hover:brightness-110"
+              >
+                <ExternalLink className="h-4 w-4" aria-hidden />
+                Visit live product
+              </Link>
+            ) : null}
+          </div>
+
+          <div className="mb-10 flex flex-wrap gap-2">
+            {project.tech.map((t) => (
+              <span key={t} className="rounded-full bg-slate-800 px-2.5 py-1 text-[11px] text-slate-400">
+                {t}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <ArticleBody content={project.body} />
+        </Reveal>
+
+        <div className="mt-16 flex flex-wrap gap-6 border-t border-slate-800 pt-8">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-1.5 font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden />
+            All projects
           </Link>
-          <Link href="/#projects" className="text-slate-400 hover:text-slate-300 text-sm">
+          <Link href="/#projects" className="text-sm text-slate-400 hover:text-slate-300">
             View carousel on home
           </Link>
         </div>

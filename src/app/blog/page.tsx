@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Newspaper } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
+import { BlogCard } from "@/components/blog/BlogCard";
+import { Reveal } from "@/components/immersive/Reveal";
 import { blogPosts } from "@/content/blog/posts";
 import { getSiteUrl } from "@/lib/site";
 
@@ -19,36 +22,39 @@ export const metadata: Metadata = {
 
 export default function BlogIndexPage() {
   const sorted = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date));
+  const [featured, ...rest] = sorted;
 
   return (
-    <main className="flex-1 container mx-auto px-6 lg:px-12 py-12 lg:py-16 max-w-3xl">
-      <h1 className="text-4xl font-bold text-white mb-4">Blog</h1>
-      <p className="text-slate-400 mb-12 text-lg">
-        Practical guides for developers and educators—Java, Next.js, and classroom techniques.
-      </p>
-      <ul className="space-y-10">
-        {sorted.map((post) => (
-          <li key={post.slug}>
-            <article>
-              <p className="text-xs text-indigo-400 font-medium uppercase tracking-wide mb-2">
-                {post.category} · {post.date} · {post.readTimeMinutes} min read
-              </p>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                <Link href={`/blog/${post.slug}`} className="hover:text-indigo-400 transition-colors">
-                  {post.title}
-                </Link>
-              </h2>
-              <p className="text-slate-400 leading-relaxed mb-3">{post.description}</p>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="text-indigo-400 text-sm font-medium hover:text-indigo-300"
-              >
-                Read article →
-              </Link>
-            </article>
-          </li>
-        ))}
-      </ul>
+    <main className="flex-1 container mx-auto max-w-6xl px-6 py-12 lg:px-12 lg:py-16">
+      <Reveal>
+        <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-300">
+          <Newspaper className="h-3.5 w-3.5" aria-hidden />
+          {blogPosts.length} articles
+        </span>
+        <h1 className="text-4xl font-bold text-white lg:text-5xl">
+          Blog
+          <BrandLogo size={40} className="ml-3 hidden align-middle sm:inline-flex" />
+        </h1>
+        <p className="mt-4 max-w-2xl text-lg text-slate-400">
+          Practical guides for developers and educators — Java, Next.js, and classroom techniques.
+        </p>
+      </Reveal>
+
+      {featured ? (
+        <Reveal delay={0.1} className="mt-12">
+          <BlogCard post={featured} featured />
+        </Reveal>
+      ) : null}
+
+      {rest.length > 0 ? (
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {rest.map((post, i) => (
+            <Reveal key={post.slug} delay={Math.min(i, 5) * 0.05}>
+              <BlogCard post={post} />
+            </Reveal>
+          ))}
+        </div>
+      ) : null}
     </main>
   );
 }

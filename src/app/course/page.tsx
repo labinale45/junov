@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ContentSectionLayout } from "@/components/ContentSectionLayout";
+import { MinimalSectionLayout } from "@/components/MinimalSectionLayout";
 import CourseCatalog from "@/components/course/pages/CourseCatalog";
 import { getSiteUrl } from "@/lib/site";
 
@@ -60,9 +60,9 @@ export default function CourseCatalogPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <ContentSectionLayout>
+      <MinimalSectionLayout tone="indigo">
         <CourseCatalog />
-      </ContentSectionLayout>
+      </MinimalSectionLayout>
     </>
   );
 }

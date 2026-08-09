@@ -6,10 +6,12 @@ import { Projects } from "@/components/Projects";
 import { Skills } from "@/components/Skills";
 import { Experience } from "@/components/Experience";
 import { Achievements } from "@/components/Achievements";
+import { Explore } from "@/components/Explore";
 import { TechStack } from "@/components/TechStack";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { LatestBlogPosts } from "@/components/LatestBlogPosts";
+import { ScrollToHashOnLoad } from "@/components/ScrollToHashOnLoad";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
@@ -72,6 +74,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
       <Header />
+      <ScrollToHashOnLoad />
       <main>
         <Hero />
         <About />
@@ -81,6 +84,7 @@ export default function Home() {
         <Skills />
         <Experience />
         <Achievements />
+        <Explore />
         <TechStack />
         <Contact />
         <Footer />

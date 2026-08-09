@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { AdSenseScript } from "@/components/AdSense";
 import { FloatingDock } from "@/components/FloatingDock";
+import { Toaster } from "@/components/ui/sonner";
 import { ADSENSE_PUBLISHER_ID } from "@/lib/adsense";
 import "./globals.css";
 import Script from "next/script";
@@ -130,6 +131,7 @@ export default function RootLayout({
         <AdSenseScript />
         {children}
         <FloatingDock />
+        <Toaster />
       </body>
     </html>
   );

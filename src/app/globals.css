@@ -182,3 +182,35 @@ body.pb-dock-safe {
     padding-bottom: 7rem;
   }
 }
+
+/* Slow-drifting aurora blobs — used by AuroraBackground */
+@keyframes aurora-drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-30px, 40px) scale(1.08);
+  }
+}
+@keyframes aurora-drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(35px, -30px) scale(1.06);
+  }
+}
+.animate-aurora-1 {
+  animation: aurora-drift-1 22s ease-in-out infinite;
+}
+.animate-aurora-2 {
+  animation: aurora-drift-2 26s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora-1,
+  .animate-aurora-2 {
+    animation: none;
+  }
+}

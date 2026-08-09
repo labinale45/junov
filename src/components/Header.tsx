@@ -4,27 +4,18 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
 import { NavHashLink } from "@/components/NavHashLink";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { HEADER_SCROLL_THRESHOLD } from "@/lib/scroll";
 
-/** Home → TypingOwl; Explore dropdown; then Blog → Contact */
-const navLinksBeforeExplore = [
+/** All items scroll to their home-page section; Home/Projects/Skills/etc. are anchors, not separate pages. */
+const navLinks = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/projects", label: "Projects", icon: FolderIcon },
+  { href: "/#projects", label: "Projects", icon: FolderIcon },
   { href: "/#skills", label: "Skills", icon: SparklesIcon },
   { href: "/#experience", label: "Experience", icon: BriefcaseIcon },
   { href: "/#typingowl", label: "TypingOwl", icon: CodeIcon },
-];
-
-const navLinksAfterExplore = [
-  { href: "/blog", label: "Blog", icon: BlogIcon },
+  { href: "/#explore", label: "Explore", icon: CompassIcon },
+  { href: "/#blog", label: "Blog", icon: BlogIcon },
   { href: "/#about", label: "About", icon: UserIcon },
   { href: "/#contact", label: "Contact", icon: MailIcon },
 ];
@@ -93,6 +84,14 @@ function MailIcon() {
   );
 }
 
+function CompassIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22a10 10 0 100-20 10 10 0 000 20zM15.5 8.5l-2.5 6-6 2.5 2.5-6 6-2.5z" />
+    </svg>
+  );
+}
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -129,34 +128,7 @@ export function Header() {
                 </span>
               </Link>
               <div className="hidden lg:flex flex-wrap gap-x-6 gap-y-2 justify-end max-w-3xl items-center">
-                {navLinksBeforeExplore.map((link) => (
-                  <NavHashLink
-                    key={link.href + link.label}
-                    href={link.href}
-                    className="text-slate-300 hover:text-white text-sm font-medium transition-colors"
-                  >
-                    {link.label}
-                  </NavHashLink>
-                ))}
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="text-slate-300 hover:text-white text-sm font-medium transition-colors inline-flex items-center gap-0.5 outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded">
-                    Explore
-                    <ChevronDown className="h-4 w-4 opacity-80" aria-hidden />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="min-w-40">
-                    <DropdownMenuItem asChild className="focus:bg-indigo-500/20 data-[highlighted]:bg-indigo-500/20">
-                      <Link href="/tools" className="cursor-pointer">
-                        Tools
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="focus:bg-indigo-500/20 data-[highlighted]:bg-indigo-500/20">
-                      <Link href="/course" className="cursor-pointer">
-                        Course
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                {navLinksAfterExplore.map((link) => (
+                {navLinks.map((link) => (
                   <NavHashLink
                     key={link.href + link.label}
                     href={link.href}

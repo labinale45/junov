@@ -1,5 +1,5 @@
-import { ContentSectionLayout } from "@/components/ContentSectionLayout";
+import { MinimalSectionLayout } from "@/components/MinimalSectionLayout";
 
 export default function ToolsLayout({ children }: { children: React.ReactNode }) {
-  return <ContentSectionLayout>{children}</ContentSectionLayout>;
+  return <MinimalSectionLayout tone="violet">{children}</MinimalSectionLayout>;
 }

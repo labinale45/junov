@@ -1,22 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GraduationCap } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { NavHashLink } from "@/components/NavHashLink";
 import { HEADER_SCROLL_THRESHOLD } from "@/lib/scroll";
 
 const dockLinks = [
   { href: "/", label: "Home", icon: HomeIcon },
-  { href: "/blog", label: "Blog", icon: BlogIcon },
-  { href: "/tools", label: "Tools", icon: ToolsIcon },
-  { href: "/course", label: "Course", icon: CourseDockIcon },
-  { href: "/projects", label: "Projects", icon: FolderIcon },
+  { href: "/#blog", label: "Blog", icon: BlogIcon },
+  { href: "/#explore", label: "Explore", icon: CompassIcon },
+  { href: "/#projects", label: "Projects", icon: FolderIcon },
   { href: "/#contact", label: "Contact", icon: MailIcon },
 ];
 
-function CourseDockIcon() {
-  return <GraduationCap className="h-[22px] w-[22px]" aria-hidden />;
+/** Tools, Course, Blog, and Projects pages get their own minimal logo-only header — no dock there. */
+function isDockHiddenRoute(pathname: string) {
+  return (
+    pathname.startsWith("/tools") ||
+    pathname.startsWith("/course") ||
+    pathname.startsWith("/blog") ||
+    pathname.startsWith("/projects")
+  );
+}
+
+function CompassIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="22" width="22">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22a10 10 0 100-20 10 10 0 000 20zM15.5 8.5l-2.5 6-6 2.5 2.5-6 6-2.5z" />
+    </svg>
+  );
 }
 
 function HomeIcon() {
@@ -31,15 +44,6 @@ function BlogIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="22" width="22">
       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-    </svg>
-  );
-}
-
-function ToolsIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="22" width="22">
-      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
     </svg>
   );
 }
@@ -62,6 +66,8 @@ function MailIcon() {
 
 /** Bottom dock — only visible after scrolling past HEADER_SCROLL_THRESHOLD (top bar hidden). */
 export function FloatingDock() {
+  const pathname = usePathname();
+  const hidden = isDockHiddenRoute(pathname);
   const [showDock, setShowDock] = useState(false);
 
   useEffect(() => {
@@ -72,10 +78,12 @@ export function FloatingDock() {
   }, []);
 
   useEffect(() => {
-    if (showDock) document.body.classList.add("pb-dock-safe");
+    if (showDock && !hidden) document.body.classList.add("pb-dock-safe");
     else document.body.classList.remove("pb-dock-safe");
     return () => document.body.classList.remove("pb-dock-safe");
-  }, [showDock]);
+  }, [showDock, hidden]);
+
+  if (hidden) return null;
 
   return (
     <AnimatePresence>
@@ -94,7 +102,7 @@ export function FloatingDock() {
               const Icon = link.icon;
               return (
                 <NavHashLink
-                  key={link.href}
+                  key={link.href + link.label}
                   href={link.href}
                   className="group relative px-2 sm:px-3 py-1 shrink-0"
                 >

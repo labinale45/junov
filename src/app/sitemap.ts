@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { blogPosts } from "@/content/blog/posts";
 import { projects } from "@/content/projects/cases";
+import { TOOLS } from "@/lib/tools-registry";
+import { COMPRESSOR_PRESETS } from "@/lib/compressor-presets";
+import { CONVERTER_PAIRS } from "@/lib/converter-pairs";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
@@ -39,12 +42,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteUrl}/tools`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteUrl}/tools/json-formatter`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/tools`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/projects`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },
     { url: `${siteUrl}/terms`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },
   ];
+
+  const toolRoutes: MetadataRoute.Sitemap = TOOLS.map((tool) => ({
+    url: `${siteUrl}/tools/${tool.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  const compressorPresetRoutes: MetadataRoute.Sitemap = COMPRESSOR_PRESETS.map((preset) => ({
+    url: `${siteUrl}/tools/image-compressor/${preset.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.65,
+  }));
+
+  const converterPairRoutes: MetadataRoute.Sitemap = CONVERTER_PAIRS.map((pair) => ({
+    url: `${siteUrl}/tools/image-converter/${pair.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${siteUrl}/blog/${post.slug}`,
@@ -60,5 +83,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...courseRoutes, ...blogRoutes, ...projectRoutes];
+  return [
+    ...staticRoutes,
+    ...toolRoutes,
+    ...compressorPresetRoutes,
+    ...converterPairRoutes,
+    ...courseRoutes,
+    ...blogRoutes,
+    ...projectRoutes,
+  ];
 }

@@ -1,0 +1,56 @@
+import { getSiteUrl } from "@/lib/site";
+import type { ToolDef } from "@/lib/tools-registry";
+
+export function ToolJsonLd({
+  tool,
+  pagePath,
+  pageName,
+}: {
+  tool: ToolDef;
+  /** Override the canonical path for variant pages (e.g. a compressor size preset). Defaults to /tools/{slug}. */
+  pagePath?: string;
+  /** Override the breadcrumb's final label for variant pages. Defaults to the tool's name. */
+  pageName?: string;
+}) {
+  const siteUrl = getSiteUrl();
+  const url = `${siteUrl}${pagePath ?? `/tools/${tool.slug}`}`;
+
+  const webApp = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: pageName ?? tool.name,
+    url,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    description: tool.description,
+  };
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Tools", item: `${siteUrl}/tools` },
+      { "@type": "ListItem", position: 3, name: pageName ?? tool.name, item: url },
+    ],
+  };
+
+  const faqPage = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: tool.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }} />
+    </>
+  );
+}
