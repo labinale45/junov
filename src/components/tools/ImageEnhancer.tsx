@@ -16,6 +16,7 @@ interface UpscalerLike {
     img: HTMLImageElement,
     options?: { progress?: (amount: number) => void }
   ) => Promise<string>;
+  dispose: () => Promise<void>;
 }
 
 function loadImageFromDataUrl(dataUrl: string): Promise<HTMLImageElement> {
@@ -69,6 +70,19 @@ export function ImageEnhancer() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<EnhanceResult | null>(null);
   const simTickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const upscalerRef = useRef<UpscalerLike | null>(null);
+
+  // Each Upscaler instance holds GPU-resident model weights. Creating a fresh one per
+  // "Enhance" click (the previous behavior) leaked that GPU memory on every run, since
+  // JS garbage collection doesn't reclaim WebGL textures — repeated use would eventually
+  // exhaust GPU memory and break shader compilation for later runs. Reuse one instance
+  // for the component's lifetime and dispose it on unmount instead.
+  useEffect(() => {
+    return () => {
+      upscalerRef.current?.dispose();
+      upscalerRef.current = null;
+    };
+  }, []);
 
   // upscaler's progress callback only fires when a `patchSize` is configured, which would
   // change how the image is tiled/processed. Rather than take that tradeoff just for a
@@ -116,17 +130,38 @@ export function ImageEnhancer() {
       const capped = capSourceImage(sourceImg);
       setWasCapped(capped.wasCapped);
 
-      const Upscaler = (await import("upscaler")).default;
-      await import("@tensorflow/tfjs");
-      const upscaler = new Upscaler() as unknown as UpscalerLike;
+      const tf = await import("@tensorflow/tfjs");
+      if (!upscalerRef.current) {
+        const Upscaler = (await import("upscaler")).default;
+        upscalerRef.current = new Upscaler() as unknown as UpscalerLike;
+      }
+      const upscaler = upscalerRef.current;
 
       const onProgress = (amount: number) => {
         setModelLoading(false);
         setProgress((prev) => Math.max(prev, Math.round(amount * 100)));
       };
 
+      // Some GPU/driver combinations (notably certain Intel integrated GPUs) fail to
+      // compile the WebGL backend's generated shaders for this model, throwing "Failed
+      // to compile fragment shader" instead of producing a result. The CPU backend runs
+      // the same model without touching WebGL at all, so it's immune to that failure
+      // class — fall back to it once, transparently, rather than surfacing a dead end.
+      const isShaderFailure = (err: unknown) => err instanceof Error && /shader|webgl/i.test(err.message);
+      const upscaleWithFallback = async (img: HTMLImageElement) => {
+        try {
+          return await upscaler.upscale(img, { progress: onProgress });
+        } catch (err) {
+          if (isShaderFailure(err) && tf.getBackend() !== "cpu") {
+            await tf.setBackend("cpu");
+            return await upscaler.upscale(img, { progress: onProgress });
+          }
+          throw err;
+        }
+      };
+
       const passInputImg = await loadImageFromDataUrl(capped.dataUrl);
-      const firstPassDataUrl = await upscaler.upscale(passInputImg, { progress: onProgress });
+      const firstPassDataUrl = await upscaleWithFallback(passInputImg);
       const firstPassImg = await loadImageFromDataUrl(firstPassDataUrl);
 
       const achievedRatio = firstPassImg.naturalWidth / capped.width;
@@ -147,7 +182,7 @@ export function ImageEnhancer() {
       } else {
         // 4x: run a second pass feeding the first pass's result back in.
         setProgress(0);
-        const secondPassDataUrl = await upscaler.upscale(firstPassImg, { progress: onProgress });
+        const secondPassDataUrl = await upscaleWithFallback(firstPassImg);
         const secondPassImg = await loadImageFromDataUrl(secondPassDataUrl);
         finalDataUrl = secondPassDataUrl;
         finalWidth = secondPassImg.naturalWidth;
@@ -175,7 +210,7 @@ export function ImageEnhancer() {
     } catch (err) {
       let message = "Enhancement failed. Please try a different image.";
       if (err instanceof Error) {
-        if (/webgl/i.test(err.message)) {
+        if (/webgl|shader/i.test(err.message)) {
           message = "Your browser doesn't support the WebGL features needed for AI enhancement. Try a recent version of Chrome or Firefox.";
         } else if (/memory|out of/i.test(err.message)) {
           message = "The image is too large to process in your browser's memory. Try a smaller image.";
