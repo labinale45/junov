@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { AdSenseScript } from "@/components/AdSense";
 import { FloatingDock } from "@/components/FloatingDock";
 import { Toaster } from "@/components/ui/sonner";
 import { ADSENSE_PUBLISHER_ID } from "@/lib/adsense";
@@ -128,7 +127,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased bg-slate-950 text-slate-100`}
       >
-        <AdSenseScript />
         {children}
         <FloatingDock />
         <Toaster />

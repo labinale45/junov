@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, MessageCircleQuestion, ShieldCheck, Sparkles } from "lucide-react";
+import { AdSenseScript } from "@/components/AdSense";
 import { BrandLogo } from "@/components/BrandLogo";
 import { AdSlot } from "@/components/tools/shared/AdSlot";
 import { CopyLinkButton } from "@/components/tools/shared/CopyLinkButton";
@@ -21,6 +22,7 @@ export function ToolLayout({
 
   return (
     <main className="relative flex-1 overflow-hidden bg-[#0a0f1e]">
+      <AdSenseScript />
       {/* Decorative ambient glow — purely visual, sits behind all content */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 right-0 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,_rgba(124,58,237,0.16)_0%,_transparent_70%)] blur-2xl" />

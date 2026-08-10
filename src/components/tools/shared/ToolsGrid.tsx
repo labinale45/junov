@@ -15,6 +15,24 @@ const FILTERS: { key: FilterKey; label: string; icon: LucideIcon }[] = [
   { key: "developer", label: CATEGORY_LABELS.developer, icon: Code2 },
 ];
 
+const CATEGORY_ORDER: ToolCategory[] = ["image", "ai", "developer"];
+
+function ToolCardGrid({ tools }: { tools: typeof TOOLS }) {
+  return (
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {tools.map((tool, i) => (
+        <div
+          key={tool.slug}
+          className="animate-in fade-in-0 slide-in-from-bottom-2 fill-mode-both"
+          style={{ animationDelay: `${Math.min(i, 8) * 40}ms`, animationDuration: "400ms" }}
+        >
+          <ToolCard tool={tool} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function ToolsGrid() {
   const [filter, setFilter] = useState<FilterKey>("all");
 
@@ -54,17 +72,25 @@ export function ToolsGrid() {
         })}
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((tool, i) => (
-          <div
-            key={tool.slug}
-            className="animate-in fade-in-0 slide-in-from-bottom-2 fill-mode-both"
-            style={{ animationDelay: `${Math.min(i, 8) * 40}ms`, animationDuration: "400ms" }}
-          >
-            <ToolCard tool={tool} />
-          </div>
-        ))}
-      </div>
+      {filter === "all" ? (
+        <div className="space-y-12">
+          {CATEGORY_ORDER.map((category) => {
+            const tools = filtered.filter((t) => t.category === category);
+            if (tools.length === 0) return null;
+            return (
+              <section key={category}>
+                <h2 className="mb-5 text-xl font-bold text-slate-50">{CATEGORY_LABELS[category]}</h2>
+                <ToolCardGrid tools={tools} />
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <section>
+          <h2 className="mb-5 text-xl font-bold text-slate-50">{CATEGORY_LABELS[filter]}</h2>
+          <ToolCardGrid tools={filtered} />
+        </section>
+      )}
     </div>
   );
 }

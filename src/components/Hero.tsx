@@ -24,7 +24,7 @@ export function Hero() {
           {/* Left: Text */}
           <div className="order-2 lg:order-1">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="text-indigo-400 text-sm font-medium tracking-wider uppercase mb-4"
@@ -32,7 +32,7 @@ export function Hero() {
               Welcome to my portfolio
             </motion.p>
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6"
@@ -40,7 +40,7 @@ export function Hero() {
               Rabin Ale
             </motion.h1>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl md:text-2xl text-slate-300 mb-6"
@@ -48,7 +48,7 @@ export function Hero() {
               AI Developer • Full Stack Engineer • Co-Founder @ TypingOwl
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="text-slate-400 text-lg max-w-xl mb-10 leading-relaxed"
@@ -58,7 +58,7 @@ export function Hero() {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={false}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-wrap gap-4 mb-16"
@@ -90,7 +90,7 @@ export function Hero() {
 
             {/* Stats */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="grid grid-cols-2 md:grid-cols-4 gap-4"
@@ -109,7 +109,7 @@ export function Hero() {
 
           {/* Right: Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="order-1 lg:order-2 flex justify-center"
