@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("watermark")!;
 
 export const metadata: Metadata = {
-  title: "Free Watermark Adder — Add Text or Image Watermark Online",
+  title: "Add Watermark to Photo — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

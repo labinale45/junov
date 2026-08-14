@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-effects")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Effects — Apply Filters & Effects Online",
+  title: "Photo Filters Online — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

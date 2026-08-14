@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { blogPosts } from "@/content/blog/posts";
 import { projects } from "@/content/projects/cases";
 import { TOOLS } from "@/lib/tools-registry";
+import { GAMES } from "@/lib/games-registry";
 import { COMPRESSOR_PRESETS } from "@/lib/compressor-presets";
 import { CONVERTER_PAIRS } from "@/lib/converter-pairs";
 
@@ -43,6 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: siteUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteUrl}/tools`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteUrl}/games`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/projects`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/privacy-policy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },
     { url: `${siteUrl}/terms`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },
@@ -50,6 +52,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const toolRoutes: MetadataRoute.Sitemap = TOOLS.map((tool) => ({
     url: `${siteUrl}/tools/${tool.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  const gameRoutes: MetadataRoute.Sitemap = GAMES.map((game) => ({
+    url: `${siteUrl}/games/${game.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,
@@ -86,6 +95,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticRoutes,
     ...toolRoutes,
+    ...gameRoutes,
     ...compressorPresetRoutes,
     ...converterPairRoutes,
     ...courseRoutes,

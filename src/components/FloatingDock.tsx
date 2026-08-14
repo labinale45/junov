@@ -10,14 +10,16 @@ const dockLinks = [
   { href: "/", label: "Home", icon: HomeIcon },
   { href: "/#blog", label: "Blog", icon: BlogIcon },
   { href: "/#explore", label: "Explore", icon: CompassIcon },
+  { href: "/games", label: "Games", icon: GameIcon },
   { href: "/#projects", label: "Projects", icon: FolderIcon },
   { href: "/#contact", label: "Contact", icon: MailIcon },
 ];
 
-/** Tools, Course, Blog, and Projects pages get their own minimal logo-only header — no dock there. */
+/** Tools, Games, Course, Blog, and Projects pages get their own minimal logo-only header — no dock there. */
 function isDockHiddenRoute(pathname: string) {
   return (
     pathname.startsWith("/tools") ||
+    pathname.startsWith("/games") ||
     pathname.startsWith("/course") ||
     pathname.startsWith("/blog") ||
     pathname.startsWith("/projects")
@@ -28,6 +30,14 @@ function CompassIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="22" width="22">
       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22a10 10 0 100-20 10 10 0 000 20zM15.5 8.5l-2.5 6-6 2.5 2.5-6 6-2.5z" />
+    </svg>
+  );
+}
+
+function GameIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="22" width="22">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 11h4m-2-2v4m7-1h.01M18 10h.01M17.32 5H6.68a4 4 0 00-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 003 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 019.828 16h4.344a2 2 0 011.414.586L17 18c.5.5 1 1 2 1a3 3 0 003-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0017.32 5z" />
     </svg>
   );
 }

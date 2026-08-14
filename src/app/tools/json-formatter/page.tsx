@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("json-formatter")!;
 
 export const metadata: Metadata = {
-  title: tool.name,
+  title: "JSON Formatter — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

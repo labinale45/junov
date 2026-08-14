@@ -1,23 +1,27 @@
 import { getSiteUrl } from "@/lib/site";
-import type { ToolDef } from "@/lib/tools-registry";
+import type { ToolDef, ToolFaqItem } from "@/lib/tools-registry";
 
 export function ToolJsonLd({
   tool,
   pagePath,
   pageName,
+  faqs,
 }: {
   tool: ToolDef;
   /** Override the canonical path for variant pages (e.g. a compressor size preset). Defaults to /tools/{slug}. */
   pagePath?: string;
   /** Override the breadcrumb's final label for variant pages. Defaults to the tool's name. */
   pageName?: string;
+  /** Override the FAQPage entities for variant pages with their own tailored Q&As. Defaults to the tool's FAQs. */
+  faqs?: ToolFaqItem[];
 }) {
   const siteUrl = getSiteUrl();
   const url = `${siteUrl}${pagePath ?? `/tools/${tool.slug}`}`;
+  const displayFaqs = faqs ?? tool.faqs;
 
   const webApp = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name: pageName ?? tool.name,
     url,
     applicationCategory: "UtilitiesApplication",
@@ -39,7 +43,7 @@ export function ToolJsonLd({
   const faqPage = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: tool.faqs.map((faq) => ({
+    mainEntity: displayFaqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: { "@type": "Answer", text: faq.answer },

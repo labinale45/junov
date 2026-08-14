@@ -11,7 +11,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-converter")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Converter — Convert HEIC, JPG, PNG, WebP, AVIF & More",
+  title: "Image Converter — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

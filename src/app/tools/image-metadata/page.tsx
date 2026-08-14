@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-metadata")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Metadata Viewer — View EXIF Data Online",
+  title: "EXIF Viewer Online — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-cropper")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Cropper — Crop Images Online",
+  title: "Image Cropper — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

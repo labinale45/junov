@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("color-picker")!;
 
 export const metadata: Metadata = {
-  title: "Free Color Picker & Palette Extractor — Pick Colors from Image",
+  title: "Color Picker from Image — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

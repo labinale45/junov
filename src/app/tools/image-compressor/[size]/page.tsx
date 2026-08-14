@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { ImageCompressor } from "@/components/tools/ImageCompressor";
 import { ToolJsonLd } from "@/components/tools/shared/ToolJsonLd";
 import { ToolLayout } from "@/components/tools/shared/ToolLayout";
-import { COMPRESSOR_PRESETS, getPresetBySlug } from "@/lib/compressor-presets";
+import { COMPRESSOR_PRESETS, getPresetBySlug, type CompressorPreset } from "@/lib/compressor-presets";
 import { getSiteUrl, toolOgImageUrl } from "@/lib/site";
-import { getToolBySlug } from "@/lib/tools-registry";
+import { getToolBySlug, type ToolFaqItem } from "@/lib/tools-registry";
 
 const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-compressor")!;
@@ -15,6 +15,22 @@ type Props = { params: Promise<{ size: string }> };
 
 export function generateStaticParams() {
   return COMPRESSOR_PRESETS.map((preset) => ({ size: preset.slug }));
+}
+
+function faqsForPreset(preset: CompressorPreset): ToolFaqItem[] {
+  const { label } = preset;
+  return [
+    {
+      question: `How do I compress an image to ${label}?`,
+      answer: `Upload your image and the tool automatically searches for the highest quality that still fits under ${label} — download it as soon as it's done.`,
+    },
+    { question: `Is it free to compress images to ${label}?`, answer: "Yes, completely free with no login or file limit." },
+    {
+      question: "Are my images uploaded to a server?",
+      answer: `No, compression runs 100% in your browser using the Canvas API — your image is never uploaded anywhere.`,
+    },
+    { question: `What image formats can I compress to ${label}?`, answer: "JPG, PNG, WebP and AVIF." },
+  ];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -59,13 +75,15 @@ export default async function ImageCompressorSizePage({ params }: Props) {
   if (!preset) notFound();
 
   const otherPresets = COMPRESSOR_PRESETS.filter((p) => p.slug !== preset.slug);
+  const faqs = faqsForPreset(preset);
 
   return (
-    <ToolLayout toolSlug="image-compressor">
+    <ToolLayout toolSlug="image-compressor" faqs={faqs}>
       <ToolJsonLd
         tool={tool}
         pagePath={`/tools/image-compressor/${preset.slug}`}
         pageName={`Compress Image to ${preset.label}`}
+        faqs={faqs}
       />
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-violet-400">Image Tools</p>
       <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">Compress Image to {preset.label}</h1>

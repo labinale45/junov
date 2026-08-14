@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, GraduationCap, Wrench } from "lucide-react";
+import { ArrowRight, Check, Gamepad2, GraduationCap, Wrench } from "lucide-react";
 
 interface ExploreItem {
   href: string;
@@ -12,20 +12,31 @@ interface ExploreItem {
   description: string;
   features: string[];
   cta: string;
-  accent: "indigo" | "emerald";
+  accent: "indigo" | "emerald" | "violet";
 }
 
 const items: ExploreItem[] = [
   {
     href: "/tools",
     icon: Wrench,
-    kicker: "16 free tools",
+    kicker: "15 free tools",
     title: "Browser-Based Tools",
     description:
       "Compress, convert, resize and edit images, remove backgrounds with AI, and explain code — all client-side, all free, nothing ever uploaded.",
-    features: ["Image compressor & converter", "AI background remover & upscaler", "AI code explainer"],
+    features: ["Image compressor & converter", "AI background remover", "AI code explainer"],
     cta: "Explore Tools",
     accent: "indigo",
+  },
+  {
+    href: "/games",
+    icon: Gamepad2,
+    kicker: "3 free games",
+    title: "Browser Games",
+    description:
+      "Take a break with Memory Match, Tic-Tac-Toe against an unbeatable AI, and Minesweeper — quick, replayable games with saved best scores.",
+    features: ["Memory Match & Minesweeper", "Tic-Tac-Toe vs AI or a friend", "Best scores saved to your browser"],
+    cta: "Explore Games",
+    accent: "violet",
   },
   {
     href: "/course",
@@ -55,6 +66,13 @@ const ACCENT = {
     check: "text-emerald-400",
     cta: "text-emerald-400",
   },
+  violet: {
+    icon: "bg-violet-500/10 text-violet-400",
+    border: "hover:border-violet-500/30",
+    title: "group-hover:text-violet-400",
+    check: "text-violet-400",
+    cta: "text-violet-400",
+  },
 };
 
 export function Explore() {
@@ -68,14 +86,14 @@ export function Explore() {
           className="text-center mb-16"
         >
           <p className="text-indigo-400 text-sm font-medium tracking-wider uppercase mb-2">Explore</p>
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">Tools &amp; Courses</h2>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4">Tools, Games &amp; Courses</h2>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Free browser-based tools and structured, project-based courses — built to help you build and learn
-            faster.
+            Free browser-based tools, games, and structured, project-based courses — built to help you build, play,
+            and learn faster.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((item, i) => {
             const Icon = item.icon;
             const accent = ACCENT[item.accent];

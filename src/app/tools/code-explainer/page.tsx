@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("code-explainer")!;
 
 export const metadata: Metadata = {
-  title: "Free Code Explainer — Understand Any Code Instantly",
+  title: "AI Code Explainer — Free, Instant",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

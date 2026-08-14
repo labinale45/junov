@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-editor")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Editor — Adjust Brightness, Contrast & More Online",
+  title: "Online Photo Editor — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

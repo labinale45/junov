@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-resizer")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Resizer — Resize Images Online",
+  title: "Image Resizer — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

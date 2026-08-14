@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-base64")!;
 
 export const metadata: Metadata = {
-  title: "Free Image to Base64 Converter — Encode & Decode Online",
+  title: "Image to Base64 — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

@@ -3,7 +3,7 @@ import { GrainOverlay } from "@/components/immersive/GrainOverlay";
 import { ContentSiteFooter } from "@/components/ContentSiteFooter";
 
 /**
- * Used by the Tools and Course sections in place of ContentSectionLayout — no site
+ * Used by the Tools, Games, and Course sections in place of ContentSectionLayout — no site
  * navbar and no floating dock (FloatingDock hides itself on these routes). Each page
  * places its own small logo beside its main heading instead of a separate top bar.
  */

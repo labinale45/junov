@@ -15,6 +15,7 @@ const navLinks = [
   { href: "/#experience", label: "Experience", icon: BriefcaseIcon },
   { href: "/#typingowl", label: "TypingOwl", icon: CodeIcon },
   { href: "/#explore", label: "Explore", icon: CompassIcon },
+  { href: "/games", label: "Games", icon: GameIcon },
   { href: "/#blog", label: "Blog", icon: BlogIcon },
   { href: "/#about", label: "About", icon: UserIcon },
   { href: "/#contact", label: "Contact", icon: MailIcon },
@@ -80,6 +81,14 @@ function MailIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  );
+}
+
+function GameIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 11h4m-2-2v4m7-1h.01M18 10h.01M17.32 5H6.68a4 4 0 00-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 003 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 019.828 16h4.344a2 2 0 011.414.586L17 18c.5.5 1 1 2 1a3 3 0 003-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0017.32 5z" />
     </svg>
   );
 }

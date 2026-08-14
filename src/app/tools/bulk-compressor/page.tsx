@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("bulk-compressor")!;
 
 export const metadata: Metadata = {
-  title: "Free Bulk Image Compressor — Compress Multiple Images at Once",
+  title: "Bulk Image Compressor — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

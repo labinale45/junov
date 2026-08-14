@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("favicon-generator")!;
 
 export const metadata: Metadata = {
-  title: "Free Favicon Generator — Create Favicon from Image Online",
+  title: "Favicon Generator — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

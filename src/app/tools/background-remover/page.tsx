@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("background-remover")!;
 
 export const metadata: Metadata = {
-  title: "Free Background Remover — Remove Image Background Online",
+  title: "Remove Background from Image — Free",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },

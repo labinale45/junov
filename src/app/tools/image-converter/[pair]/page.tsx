@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { ImageConverter } from "@/components/tools/ImageConverter";
 import { ToolJsonLd } from "@/components/tools/shared/ToolJsonLd";
 import { ToolLayout } from "@/components/tools/shared/ToolLayout";
-import { CONVERTER_PAIRS, getConverterPairBySlug } from "@/lib/converter-pairs";
+import { CONVERTER_PAIRS, getConverterPairBySlug, type ConverterPair } from "@/lib/converter-pairs";
 import { getSiteUrl, toolOgImageUrl } from "@/lib/site";
-import { getToolBySlug } from "@/lib/tools-registry";
+import { getToolBySlug, type ToolFaqItem } from "@/lib/tools-registry";
 
 const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-converter")!;
@@ -15,6 +15,25 @@ type Props = { params: Promise<{ pair: string }> };
 
 export function generateStaticParams() {
   return CONVERTER_PAIRS.map((pair) => ({ pair: pair.slug }));
+}
+
+function faqsForPair(pair: ConverterPair): ToolFaqItem[] {
+  const { fromLabel: from, toLabel: to } = pair;
+  return [
+    {
+      question: `How do I convert ${from} to ${to}?`,
+      answer: `Drag your ${from} file into the upload area, confirm the output is set to ${to}, then click Convert — the ${to} file downloads automatically.`,
+    },
+    { question: `Is converting ${from} to ${to} free?`, answer: `Yes, completely free with no login, watermark, or file limit.` },
+    {
+      question: "Are my images uploaded to a server?",
+      answer: `No. The conversion runs 100% in your browser — your ${from} file never leaves your device.`,
+    },
+    {
+      question: "Does it work offline?",
+      answer: "Yes, once this page has loaded you can keep converting files without an internet connection.",
+    },
+  ];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -60,13 +79,15 @@ export default async function ImageConverterPairPage({ params }: Props) {
   if (!pair) notFound();
 
   const otherPairs = CONVERTER_PAIRS.filter((p) => p.slug !== pair.slug);
+  const faqs = faqsForPair(pair);
 
   return (
-    <ToolLayout toolSlug="image-converter">
+    <ToolLayout toolSlug="image-converter" faqs={faqs}>
       <ToolJsonLd
         tool={tool}
         pagePath={`/tools/image-converter/${pair.slug}`}
         pageName={`Convert ${pair.fromLabel} to ${pair.toLabel}`}
+        faqs={faqs}
       />
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-violet-400">Image Tools</p>
       <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">

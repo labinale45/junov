@@ -11,7 +11,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-compressor")!;
 
 export const metadata: Metadata = {
-  title: "Free Image Compressor — Reduce Image Size Online",
+  title: "Image Compressor — Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },
