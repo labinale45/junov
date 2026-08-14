@@ -54,7 +54,10 @@ export default function TicTacToePage() {
           possible outcome with a minimax search, so it never makes a losing move — the best result you can achieve
           against it is a draw. Open the settings menu (gear icon above the board) to switch to 2-player mode and
           pass the device back and forth with a friend instead. Wins, losses, and draws are tallied for your current
-          session.
+          session. Want a game that always ends in a win? Switch Draws to &quot;No Draws&quot; in the settings menu —
+          each player then keeps at most 3 marks on the board, so placing a 4th makes your own oldest mark vanish
+          (it pulses just before it disappears). The board can never fill up, so play keeps going until someone
+          actually wins.
         </p>
       </section>
     </GameLayout>

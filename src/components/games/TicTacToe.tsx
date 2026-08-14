@@ -7,14 +7,29 @@ import { ImageUploadSlot } from "@/components/games/shared/ImageUploadSlot";
 import { SettingsSegment } from "@/components/games/shared/SettingsSegment";
 import { useLocalStorageJSON } from "@/hooks/use-local-storage-json";
 
-type Cell = "X" | "O" | null;
+type Player = "X" | "O";
+type Cell = Player | null;
 type Board = Cell[];
 type Mode = "ai" | "friend";
+type DrawRule = "classic" | "no-draws";
+
+interface MoveQueues {
+  X: number[];
+  O: number[];
+}
 
 const MODE_OPTIONS: { value: Mode; label: string }[] = [
   { value: "ai", label: "vs AI" },
   { value: "friend", label: "2 Player" },
 ];
+
+const DRAW_RULE_OPTIONS: { value: DrawRule; label: string }[] = [
+  { value: "classic", label: "Classic" },
+  { value: "no-draws", label: "No Draws" },
+];
+
+/** In No Draws mode, each player can only have this many marks on the board at once. */
+const MAX_MARKS_PER_PLAYER = 3;
 
 const LINES = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -69,14 +84,44 @@ function bestMove(board: Board): number {
   return move;
 }
 
+/**
+ * Places `player`'s mark at `index`. In No Draws mode, if the player already has
+ * MAX_MARKS_PER_PLAYER marks on the board, their own oldest mark vanishes first —
+ * so the board can never fill up and a draw becomes structurally impossible.
+ */
+function applyMove(
+  board: Board,
+  queues: MoveQueues,
+  player: Player,
+  index: number,
+  capped: boolean
+): { board: Board; queues: MoveQueues } {
+  const nextBoard = [...board];
+  let queue = queues[player];
+
+  if (capped && queue.length >= MAX_MARKS_PER_PLAYER) {
+    const oldest = queue[0];
+    nextBoard[oldest] = null;
+    queue = queue.slice(1);
+  }
+
+  nextBoard[index] = player;
+  queue = [...queue, index];
+
+  return { board: nextBoard, queues: { ...queues, [player]: queue } };
+}
+
 export function TicTacToe() {
   const [mode, setMode] = useState<Mode>("ai");
+  const [drawRule, setDrawRule] = useState<DrawRule>("classic");
   const [board, setBoard] = useState<Board>(Array(9).fill(null));
-  const [turn, setTurn] = useState<"X" | "O">("X");
+  const [moveQueues, setMoveQueues] = useState<MoveQueues>({ X: [], O: [] });
+  const [turn, setTurn] = useState<Player>("X");
   const [score, setScore] = useState({ x: 0, o: 0, draw: 0 });
   const [markX, setMarkX] = useLocalStorageJSON<string | null>("tic-tac-toe-mark-x", null);
   const [markO, setMarkO] = useLocalStorageJSON<string | null>("tic-tac-toe-mark-o", null);
 
+  const capped = drawRule === "no-draws";
   const { winner, line } = winnerOf(board);
   const draw = isDraw(board);
   const gameOver = Boolean(winner) || draw;
@@ -86,17 +131,16 @@ export function TicTacToe() {
       const t = setTimeout(() => {
         const move = bestMove(board);
         if (move !== -1) {
-          setBoard((prev) => {
-            const next = [...prev];
-            next[move] = "O";
-            return next;
-          });
+          const result = applyMove(board, moveQueues, "O", move, capped);
+          setBoard(result.board);
+          setMoveQueues(result.queues);
           setTurn("X");
         }
       }, 400);
       return () => clearTimeout(t);
     }
-  }, [board, turn, mode, gameOver]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [board, turn, mode, gameOver, capped]);
 
   useEffect(() => {
     if (!gameOver) return;
@@ -110,31 +154,41 @@ export function TicTacToe() {
   }, [gameOver]);
 
   function play(i: number) {
-    if (board[i] || gameOver || turn !== "X") return;
-    if (mode === "ai") {
-      const next = [...board];
-      next[i] = "X";
-      setBoard(next);
-      setTurn("O");
-    } else {
-      const next = [...board];
-      next[i] = turn;
-      setBoard(next);
-      setTurn(turn === "X" ? "O" : "X");
-    }
+    if (board[i] || gameOver || (mode === "ai" && turn !== "X")) return;
+    const player = turn;
+    const result = applyMove(board, moveQueues, player, i, capped);
+    setBoard(result.board);
+    setMoveQueues(result.queues);
+    setTurn(player === "X" ? "O" : "X");
   }
 
   function newRound() {
     setBoard(Array(9).fill(null));
+    setMoveQueues({ X: [], O: [] });
     setTurn("X");
   }
 
   function switchMode(next: Mode) {
     setMode(next);
     setBoard(Array(9).fill(null));
+    setMoveQueues({ X: [], O: [] });
     setTurn("X");
     setScore({ x: 0, o: 0, draw: 0 });
   }
+
+  function switchDrawRule(next: DrawRule) {
+    setDrawRule(next);
+    setBoard(Array(9).fill(null));
+    setMoveQueues({ X: [], O: [] });
+    setTurn("X");
+  }
+
+  const nextToVanish = capped
+    ? {
+        X: moveQueues.X.length >= MAX_MARKS_PER_PLAYER ? moveQueues.X[0] : null,
+        O: moveQueues.O.length >= MAX_MARKS_PER_PLAYER ? moveQueues.O[0] : null,
+      }
+    : { X: null, O: null };
 
   const turnStatus = mode === "ai" ? (turn === "X" ? "Your turn (X)" : "AI thinking…") : `${turn}'s turn`;
 
@@ -169,6 +223,13 @@ export function TicTacToe() {
         settings={
           <div className="space-y-4">
             <SettingsSegment label="Mode" options={MODE_OPTIONS} value={mode} onChange={switchMode} />
+            <SettingsSegment label="Draws" options={DRAW_RULE_OPTIONS} value={drawRule} onChange={switchDrawRule} />
+            {capped ? (
+              <p className="-mt-2.5 text-[11px] leading-relaxed text-slate-500">
+                Each player keeps at most 3 marks on the board — placing a 4th makes your own oldest mark vanish, so
+                the board never fills up and a draw can&apos;t happen.
+              </p>
+            ) : null}
             <div>
               <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Personalize</p>
               <div className="space-y-2.5">
@@ -189,22 +250,28 @@ export function TicTacToe() {
           {board.map((cell, i) => {
             const isWinning = line?.includes(i);
             const markSrc = cell === "X" ? markX : cell === "O" ? markO : null;
+            const vanishing = i === nextToVanish.X || i === nextToVanish.O;
             return (
               <button
                 key={i}
                 type="button"
                 onClick={() => play(i)}
                 disabled={Boolean(cell) || gameOver || (mode === "ai" && turn !== "X")}
-                aria-label={cell ? `Cell ${i + 1}: ${cell}` : `Cell ${i + 1}: empty`}
+                aria-label={
+                  cell ? `Cell ${i + 1}: ${cell}${vanishing ? " (about to vanish)" : ""}` : `Cell ${i + 1}: empty`
+                }
+                title={vanishing ? "About to vanish on this player's next move" : undefined}
                 className={`flex aspect-square items-center justify-center overflow-hidden rounded-xl border text-4xl font-bold transition-all duration-200 ease-out ${
                   isWinning
                     ? "border-emerald-500/50 bg-emerald-500/15 text-emerald-400"
                     : "border-white/[0.08] bg-slate-900 text-slate-100 hover:border-violet-500/30 disabled:hover:border-white/[0.08]"
-                } ${cell === "X" ? "text-blue-400" : cell === "O" ? "text-violet-400" : ""}`}
+                } ${cell === "X" ? "text-blue-400" : cell === "O" ? "text-violet-400" : ""} ${
+                  vanishing ? "opacity-40 animate-pulse" : ""
+                }`}
               >
                 {markSrc ? (
                   // eslint-disable-next-line @next/next/no-img-element -- dynamic client-side data URL
-                  <img src={markSrc} alt="" className="h-full w-full object-cover" />
+                  <img src={markSrc} alt="" className={`h-full w-full object-cover ${vanishing ? "opacity-60" : ""}`} />
                 ) : (
                   cell
                 )}

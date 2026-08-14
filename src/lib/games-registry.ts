@@ -82,7 +82,8 @@ export const GAMES: GameDef[] = [
       "noughts and crosses",
     ],
     faqs: [
-      { question: "Can I beat the AI?", answer: "The AI plays a perfect strategy — the best you can do against it is a draw." },
+      { question: "Can I beat the AI?", answer: "The AI plays a perfect strategy — the best you can do against it is a draw, unless you turn on No Draws mode." },
+      { question: "Can I turn off draws?", answer: "Yes — open the settings menu (gear icon above the board) and switch Draws to \"No Draws\". Each player then keeps at most 3 marks on the board; placing a 4th makes your own oldest mark vanish, so the board never fills up and the game keeps going until someone actually wins." },
       { question: "Can I play Tic-Tac-Toe 2 player?", answer: "Yes, open the settings menu (gear icon above the board) and switch to 2-player mode to play locally against a friend on the same device." },
       { question: "Is Tic-Tac-Toe unblocked here?", answer: "This is a normal public web page with no login or install required — if your network allows this site, the game just works." },
       { question: "Is it free?", answer: "Yes, completely free with no login." },
