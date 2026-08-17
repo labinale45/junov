@@ -10,11 +10,14 @@ export function ImageUploadSlot({
   value,
   onChange,
   maxDim = 160,
+  onFile,
 }: {
   label: string;
   value: string | null;
   onChange: (dataUrl: string | null) => void;
   maxDim?: number;
+  /** When provided, the raw file is handed here instead of being auto-resized (e.g. to run it through a crop step first). Call onChange yourself once ready. */
+  onFile?: (file: File) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,6 +25,10 @@ export function ImageUploadSlot({
     const file = e.target.files?.[0];
     e.target.value = "";
     if (!file) return;
+    if (onFile) {
+      onFile(file);
+      return;
+    }
     const dataUrl = await resizeImageFile(file, maxDim);
     onChange(dataUrl);
   }

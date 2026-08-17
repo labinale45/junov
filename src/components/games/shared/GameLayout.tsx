@@ -6,7 +6,7 @@ import { AdSlot } from "@/components/tools/shared/AdSlot";
 import { CopyLinkButton } from "@/components/tools/shared/CopyLinkButton";
 import { ToolFAQ } from "@/components/tools/shared/ToolFAQ";
 import { RelatedGames } from "@/components/games/shared/RelatedGames";
-import { getGameBySlug, getRelatedGames } from "@/lib/games-registry";
+import { getGameBySlug, getOtherGames } from "@/lib/games-registry";
 
 export function GameLayout({
   gameSlug,
@@ -16,7 +16,7 @@ export function GameLayout({
   children: React.ReactNode;
 }) {
   const game = getGameBySlug(gameSlug);
-  const related = game ? getRelatedGames(game.related) : [];
+  const otherGames = getOtherGames(gameSlug);
 
   return (
     <main className="relative flex-1 overflow-hidden bg-[#0a0f1e]">
@@ -26,7 +26,7 @@ export function GameLayout({
         <div className="absolute top-1/3 -left-24 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,_rgba(59,130,246,0.12)_0%,_transparent_70%)] blur-2xl" />
       </div>
 
-      <div className="relative container mx-auto max-w-5xl px-4 pb-[100px] pt-3 sm:px-6 lg:px-12 lg:pt-5">
+      <div className="relative container mx-auto max-w-6xl px-4 pb-[100px] pt-3 sm:px-6 lg:px-12 lg:pt-5">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3 animate-in fade-in-0 duration-500">
           <div className="flex items-center gap-3">
             <BrandLogo size={28} />
@@ -45,23 +45,34 @@ export function GameLayout({
           <CopyLinkButton />
         </div>
 
-        <div className="animate-in fade-in-0 slide-in-from-bottom-2 duration-700">{children}</div>
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-6">
+          <div className="min-w-0 lg:flex-1">
+            <div className="animate-in fade-in-0 slide-in-from-bottom-2 duration-700">{children}</div>
+            <AdSlot size="banner" />
+          </div>
 
-        <AdSlot size="banner" />
-
-        {related.length > 0 ? (
-          <section className="mt-16">
-            <div className="mb-5 flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600/20 to-blue-500/20 text-violet-400">
-                <Sparkles className="h-4 w-4" aria-hidden />
-              </span>
-              <h2 className="text-xl font-bold text-slate-50">More Games</h2>
-            </div>
-            <RelatedGames
-              games={related.map((g) => ({ name: g.name, href: `/games/${g.slug}`, description: g.tagline, icon: g.icon }))}
-            />
-          </section>
-        ) : null}
+          {otherGames.length > 0 ? (
+            <aside className="lg:sticky lg:top-5 lg:w-[260px] lg:shrink-0" aria-label="More games">
+              <div className="mb-4 flex items-center gap-2.5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600/20 to-blue-500/20 text-violet-400">
+                  <Sparkles className="h-4 w-4" aria-hidden />
+                </span>
+                <h2 className="text-base font-bold text-slate-50">More Games</h2>
+              </div>
+              <RelatedGames
+                variant="sidebar"
+                games={otherGames.map((g) => ({
+                  name: g.name,
+                  href: `/games/${g.slug}`,
+                  description: g.tagline,
+                  icon: g.icon,
+                  image: g.image,
+                  isNew: g.isNew,
+                }))}
+              />
+            </aside>
+          ) : null}
+        </div>
 
         {game && game.faqs.length > 0 ? (
           <section className="mt-14">

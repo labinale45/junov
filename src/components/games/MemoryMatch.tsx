@@ -26,6 +26,7 @@ import { Trophy, Upload, X } from "lucide-react";
 import { useLocalStorageNumber } from "@/hooks/use-local-storage-number";
 import { useLocalStorageJSON } from "@/hooks/use-local-storage-json";
 import { useFitSquareGrid } from "@/hooks/use-fit-square-grid";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 import { resizeImageFile } from "@/lib/game-image-utils";
 import { GameOverlay } from "@/components/games/shared/GameOverlay";
 import { GameToolbar } from "@/components/games/shared/GameToolbar";
@@ -204,14 +205,22 @@ export function MemoryMatch() {
     }
   }
 
-  const { cols, rows, gap, maxCell } = GRID_CONFIG[difficulty];
+  const { containerRef, isFullscreen, isSupported, toggleFullscreen, portalContainer } = useFullscreen();
+
+  const { cols, rows, gap, maxCell: baseMaxCell } = GRID_CONFIG[difficulty];
+  const maxCell = isFullscreen ? baseMaxCell * 1.8 : baseMaxCell; // let the board grow further when the container is genuinely fullscreen
   const { wrapperRef, cellSize } = useFitSquareGrid({ cols, rows, gap, maxCell, minCell: 34 });
   const iconSize = Math.round(cellSize * 0.42);
 
   return (
-    <div>
+    <div
+      ref={containerRef}
+      className={isFullscreen ? "mx-auto flex h-full w-full max-w-4xl flex-col gap-3 overflow-auto bg-[#0a0f1e] p-4 sm:p-6" : undefined}
+    >
       <GameToolbar
         onRestart={() => newGame()}
+        fullscreen={isSupported ? { isFullscreen, onToggle: toggleFullscreen } : undefined}
+        settingsContainer={portalContainer}
         stats={
           <>
             <span>
@@ -282,7 +291,7 @@ export function MemoryMatch() {
         }
       />
 
-      <div className="w-full">
+      <div className={isFullscreen ? "flex w-full flex-1 flex-col items-center justify-center overflow-auto" : "w-full"}>
         <div
           ref={wrapperRef}
           className="relative mx-auto overflow-hidden rounded-2xl"

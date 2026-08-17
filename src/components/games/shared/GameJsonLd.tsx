@@ -10,6 +10,7 @@ export function GameJsonLd({ game }: { game: GameDef }) {
     "@type": "VideoGame",
     name: game.name,
     url,
+    image: `${siteUrl}${game.image}`,
     genre: game.categoryLabel.replace(/ Games$/, ""),
     gamePlatform: "Web Browser",
     applicationCategory: "GameApplication",

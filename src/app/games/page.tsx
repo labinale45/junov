@@ -10,7 +10,7 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   title: "Free Online Games — Play Instantly",
   description:
-    "Free browser games. Memory Match, Tic-Tac-Toe vs AI, and Minesweeper. No login, no download, runs instantly in your browser.",
+    "Free browser games. Memory Match, Tic-Tac-Toe vs AI, Minesweeper, and Troll Jump. No login, no download, runs instantly in your browser.",
   keywords: ["free online games", "browser games", "no download games", "play games online free"],
   alternates: { canonical: `${siteUrl}/games` },
   openGraph: {
@@ -58,8 +58,8 @@ export default function GamesIndexPage() {
             <BrandLogo size={44} className="ml-3 hidden align-middle sm:inline-flex" />
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-400">
-            Memory Match, Tic-Tac-Toe against an unbeatable AI, and Minesweeper — {GAMES.length} browser games that
-            are always free. No downloads, no logins, no catch.
+            Memory Match, Tic-Tac-Toe against an unbeatable AI, Minesweeper, and the trick platformer Troll Jump —{" "}
+            {GAMES.length} browser games that are always free. No downloads, no logins, no catch.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/5 px-3.5 py-1.5 text-xs font-medium text-green-500">

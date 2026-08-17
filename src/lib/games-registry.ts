@@ -1,8 +1,8 @@
 import type { LucideIcon } from "lucide-react";
-import { Bomb, Brain, Hash } from "lucide-react";
+import { Bomb, Brain, Hash, Skull } from "lucide-react";
 import { ACCENT_CLASSES, type AccentColor } from "@/lib/tools-registry";
 
-export type GameCategory = "puzzle" | "strategy";
+export type GameCategory = "puzzle" | "strategy" | "arcade";
 
 export interface GameFaqItem {
   question: string;
@@ -18,6 +18,7 @@ export interface GameDef {
   categoryLabel: string;
   icon: LucideIcon;
   accent: AccentColor;
+  image: string;
   isNew?: boolean;
   keywords: string[];
   faqs: GameFaqItem[];
@@ -30,9 +31,41 @@ export type { AccentColor };
 export const GAME_CATEGORY_LABELS: Record<GameCategory, string> = {
   puzzle: "Puzzle Games",
   strategy: "Strategy Games",
+  arcade: "Arcade Games",
 };
 
 export const GAMES: GameDef[] = [
+  {
+    slug: "troll-jump",
+    name: "Troll Jump",
+    tagline: "A platformer that lies to you — trust nothing, reach the real door",
+    description:
+      "Play Troll Jump free online. An 8-level trick platformer where floors vanish, walls turn invisible, spikes rise when you get close, bridges phase in and out, and only one exit is real. No download, runs in your browser.",
+    category: "arcade",
+    categoryLabel: "Arcade Games",
+    icon: Skull,
+    accent: "orange",
+    image: "/assets/troll-jump.jpg",
+    isNew: true,
+    keywords: [
+      "troll jump game",
+      "trap platformer online",
+      "trick platformer game",
+      "troll game online free",
+      "prank platformer",
+      "impossible platformer game",
+    ],
+    faqs: [
+      { question: "How do I play Troll Jump?", answer: "Use the arrow keys or A/D to move and Space, W, or the up arrow to jump. Reach the glowing exit door to clear each of the 8 levels." },
+      { question: "What makes it a \"troll\" game?", answer: "Almost nothing is what it looks like — floors quietly vanish underfoot, some blocks you can walk into are fake, some walls are completely invisible until you bump into them, spikes rise up out of the floor the moment you get close, bridges phase in and out of existence, and when a level has multiple exit doors only one is ever real. Watch the ceiling too." },
+      { question: "Are the traps random?", answer: "Yes, the timing of vanishing floors, hidden spikes, rising spikes, phasing bridges, and which door is real are all re-rolled every time you load a level, so memorizing one run isn't enough." },
+      { question: "Can I jump straight to a level I've already reached?", answer: "Yes — open the settings menu (gear icon above the game) and pick any unlocked level from the Levels row. Levels unlock as you clear them." },
+      { question: "How do I restart a level?", answer: "Press R at any time, or use the restart button in the toolbar above the game." },
+      { question: "Is it free?", answer: "Yes, completely free with no login or download." },
+      { question: "Are deaths tracked?", answer: "Yes, your death count for the current session is shown in the toolbar — dying just respawns you at the start of the level instantly." },
+    ],
+    related: ["minesweeper", "tic-tac-toe"],
+  },
   {
     slug: "memory-match",
     name: "Memory Match",
@@ -43,6 +76,7 @@ export const GAMES: GameDef[] = [
     categoryLabel: "Puzzle Games",
     icon: Brain,
     accent: "violet",
+    image: "/assets/memory-match.jpg",
     isNew: true,
     keywords: [
       "memory match game",
@@ -72,6 +106,7 @@ export const GAMES: GameDef[] = [
     categoryLabel: "Strategy Games",
     icon: Hash,
     accent: "blue",
+    image: "/assets/tic-tac-toe.jpg",
     keywords: [
       "tic tac toe online",
       "tic tac toe online free",
@@ -102,6 +137,7 @@ export const GAMES: GameDef[] = [
     categoryLabel: "Puzzle Games",
     icon: Bomb,
     accent: "rose",
+    image: "/assets/minesweeper.jpg",
     keywords: [
       "minesweeper online",
       "minesweeper online free",
@@ -130,4 +166,11 @@ export function getRelatedGames(slugs: string[]): GameDef[] {
   return slugs
     .map((s) => getGameBySlug(s))
     .filter((g): g is GameDef => Boolean(g));
+}
+
+/** All games except the given slug, newest first — used for the "more games" sidebar/rail on a game page. */
+export function getOtherGames(slug: string): GameDef[] {
+  return GAMES.filter((g) => g.slug !== slug).sort(
+    (a, b) => Number(Boolean(b.isNew)) - Number(Boolean(a.isNew)),
+  );
 }

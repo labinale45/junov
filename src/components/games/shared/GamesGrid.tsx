@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { LayoutGrid, Puzzle, Swords, type LucideIcon } from "lucide-react";
+import { Gamepad2, LayoutGrid, Puzzle, Swords, type LucideIcon } from "lucide-react";
 import { GameCard } from "@/components/games/shared/GameCard";
 import { GAME_CATEGORY_LABELS, GAMES, type GameCategory } from "@/lib/games-registry";
 
@@ -12,9 +12,8 @@ const FILTERS: { key: FilterKey; label: string; icon: LucideIcon }[] = [
   { key: "all", label: "All", icon: LayoutGrid },
   { key: "puzzle", label: GAME_CATEGORY_LABELS.puzzle, icon: Puzzle },
   { key: "strategy", label: GAME_CATEGORY_LABELS.strategy, icon: Swords },
+  { key: "arcade", label: GAME_CATEGORY_LABELS.arcade, icon: Gamepad2 },
 ];
-
-const CATEGORY_ORDER: GameCategory[] = ["puzzle", "strategy"];
 
 function GameCardGrid({ games }: { games: typeof GAMES }) {
   return (
@@ -72,18 +71,7 @@ export function GamesGrid() {
       </div>
 
       {filter === "all" ? (
-        <div className="space-y-12">
-          {CATEGORY_ORDER.map((category) => {
-            const games = filtered.filter((g) => g.category === category);
-            if (games.length === 0) return null;
-            return (
-              <section key={category}>
-                <h2 className="mb-5 text-xl font-bold text-slate-50">{GAME_CATEGORY_LABELS[category]}</h2>
-                <GameCardGrid games={games} />
-              </section>
-            );
-          })}
-        </div>
+        <GameCardGrid games={filtered} />
       ) : (
         <section>
           <h2 className="mb-5 text-xl font-bold text-slate-50">{GAME_CATEGORY_LABELS[filter]}</h2>
