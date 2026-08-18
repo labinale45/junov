@@ -40,7 +40,7 @@ export const GAMES: GameDef[] = [
     name: "Troll Jump",
     tagline: "A platformer that lies to you — trust nothing, reach the real door",
     description:
-      "Play Troll Jump free online. An 8-level trick platformer where floors vanish, walls turn invisible, spikes rise when you get close, bridges phase in and out, and only one exit is real. No download, runs in your browser.",
+      "Play Troll Jump free online. A 10-level trick platformer where floors vanish, walls turn invisible, spikes rise when you get close, bridges phase in and out, and only one exit is real. No download, runs in your browser.",
     category: "arcade",
     categoryLabel: "Arcade Games",
     icon: Skull,
@@ -56,7 +56,7 @@ export const GAMES: GameDef[] = [
       "impossible platformer game",
     ],
     faqs: [
-      { question: "How do I play Troll Jump?", answer: "Use the arrow keys or A/D to move and Space, W, or the up arrow to jump. Reach the glowing exit door to clear each of the 8 levels." },
+      { question: "How do I play Troll Jump?", answer: "Use the arrow keys or A/D to move and Space, W, or the up arrow to jump. Reach the glowing exit door to clear each of the 10 levels." },
       { question: "What makes it a \"troll\" game?", answer: "Almost nothing is what it looks like — floors quietly vanish underfoot, some blocks you can walk into are fake, some walls are completely invisible until you bump into them, spikes rise up out of the floor the moment you get close, bridges phase in and out of existence, and when a level has multiple exit doors only one is ever real. Watch the ceiling too." },
       { question: "Are the traps random?", answer: "Yes, the timing of vanishing floors, hidden spikes, rising spikes, phasing bridges, and which door is real are all re-rolled every time you load a level, so memorizing one run isn't enough." },
       { question: "Can I jump straight to a level I've already reached?", answer: "Yes — open the settings menu (gear icon above the game) and pick any unlocked level from the Levels row. Levels unlock as you clear them." },

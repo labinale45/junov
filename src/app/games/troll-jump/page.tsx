@@ -50,7 +50,7 @@ export default function TrollJumpPage() {
         <h2 className="text-xl font-bold text-slate-50">How to Play Troll Jump</h2>
         <p className="text-slate-400">
           Move with the arrow keys or A/D and jump with Space, W, or the up arrow. Reach the glowing exit door to
-          clear each of the 8 levels — but almost nothing on screen can be trusted. Floors marked as solid ground can
+          clear each of the 10 levels — but almost nothing on screen can be trusted. Floors marked as solid ground can
           quietly crumble away underfoot, some blocks you can walk straight through, some walls are completely
           invisible until you walk into them, spikes rise up the moment you get close, bridges phase in and out of
           existence, ceiling spikes drop as you pass beneath them, and levels with more than one exit door only ever

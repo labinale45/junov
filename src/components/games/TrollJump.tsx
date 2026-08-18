@@ -36,12 +36,41 @@ interface ShiftPairDef {
   interval: number;
 }
 
+interface PatrolSpikeDef {
+  /** [row, col] the spike sits at, motionless, until the player gets close. */
+  from: [number, number];
+  /** Ignored when `homing` is set — otherwise the far endpoint of a fixed back-and-forth patrol. */
+  to: [number, number];
+  /** Seconds for one full back-and-forth cycle. Ignored when `homing` is set. */
+  period: number;
+  /** Once armed, chase the player's x position directly instead of patrolling a fixed pair of tiles. */
+  homing?: boolean;
+}
+
 interface LevelDef {
   name: string;
   note: string;
   grid: string[];
   /** Platforms whose solid tiles alternate between two positions on a timer. Defined by coordinates, not grid chars. */
   shiftPairs?: ShiftPairDef[];
+  /** Spikes sliding continuously between two tiles, independent of the grid. */
+  patrolSpikes?: PatrolSpikeDef[];
+  /** The exit door itself steps between these [row, col] waypoints (ping-ponging), one hop at a time — the goal is a moving target. First waypoint is the door's starting tile; omit 'G' from the grid string for this level. */
+  doorPath?: [number, number][];
+  /** Jump is disabled outright — needs a jump-free layout (no gaps, no spikes that require clearing). */
+  jumpDisabled?: boolean;
+  /** Left/right are swapped. */
+  flippedControls?: boolean;
+  /** Once the player crosses the level's proximity gap and stops moving, a ceiling spike drops on them — standing still is the punishment. Requires a 'q' gap in the grid. */
+  waitTrap?: boolean;
+  /** A spike rises to block the door on a timer (up 5s, down 2s) once the player gets close — pass during a down window. */
+  guardDoor?: boolean;
+  /** Once the player crosses the level's proximity gap, the collapse keeps chasing their feet for a few more tiles. Requires a 'q' gap in the grid. */
+  chaseFloor?: boolean;
+  /** The player's own first jump wakes a spike near the door that erupts and slides left to meet them. */
+  jumpAmbushSpike?: boolean;
+  /** Once the player gets close, the door leaps clean over their head to a spot behind them. */
+  doorJumpAway?: boolean;
 }
 
 // '#' solid   '^' floor spikes   'P' start   'G' real goal
@@ -49,6 +78,7 @@ interface LevelDef {
 // 'B' fake block (looks solid, you drop through)   'a' auto-collapsing bridge (falls away on its own once armed)
 // 'T' ceiling spike (drops when you pass under)
 // 'D' mystery door (looks like the goal — exactly ONE is real, re-rolled every attempt)
+// 'F' fake door (looks identical to the real goal — always a kill, no re-roll)
 // 'I' invisible wall (solid, drawn as nothing — you only find it by walking into it)
 // 'Z' rising spikes (safe until you get close, then rise and strike — per contiguous run)
 // 'q' proximity floor (vanishes the instant you get close — no touch, no delay, no warning)
@@ -56,6 +86,7 @@ const LEVELS: LevelDef[] = [
   {
     name: "Just wait there",
     note: "A straight walk to the door. The floor won't let you keep it that simple — and neither will the door.",
+    waitTrap: true,
     grid: [
       "                    ",
       "                    ",
@@ -74,6 +105,7 @@ const LEVELS: LevelDef[] = [
   {
     name: "Trust it (sometimes)",
     note: "Same walk, same floor. This time the door isn't lying — waiting for the spike to drop is what gets you through.",
+    guardDoor: true,
     grid: [
       "                    ",
       "                    ",
@@ -92,6 +124,7 @@ const LEVELS: LevelDef[] = [
   {
     name: "Too easy?",
     note: "No gaps, no spikes, no lies this time. Sometimes everything really is exactly what it looks like.",
+    jumpDisabled: true,
     grid: [
       "                    ",
       "                    ",
@@ -110,6 +143,8 @@ const LEVELS: LevelDef[] = [
   {
     name: "Left is right",
     note: "Same floor, same door, same trick — but your controls got flipped. And there's nowhere behind you to retreat to.",
+    flippedControls: true,
+    waitTrap: true,
     grid: [
       "                    ",
       "                    ",
@@ -127,7 +162,9 @@ const LEVELS: LevelDef[] = [
   },
   {
     name: "Now you see it",
-    note: "Same gap as before. This time it doesn't give up when you land — it keeps chasing your feet for a few more steps.",
+    note: "Same gap as before. Don't get too comfortable once you land.",
+    chaseFloor: true,
+    jumpAmbushSpike: true,
     grid: [
       "                    ",
       "                    ",
@@ -144,26 +181,91 @@ const LEVELS: LevelDef[] = [
     ],
   },
   {
-    name: "Blink and you're dead",
-    note: "The spikes aren't always there. Time it.",
+    name: "Just a spike",
+    note: "One spike. One jump. Should be simple.",
+    doorJumpAway: true,
     grid: [
       "                    ",
       "                    ",
-      "                T   ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "P                  G",
+      "####################",
+      "####################",
+      "####################",
+      "####################",
+      "####################",
+    ],
+    patrolSpikes: [{ from: [6, 7], to: [6, 14], period: 2.2, homing: true }],
+  },
+  {
+    name: "Old tricks, new order",
+    note: "Same gap as before. You know this one already — or you think you do.",
+    chaseFloor: true,
+    grid: [
       "                    ",
       "                    ",
       "                    ",
       "                    ",
       "                    ",
       "                    ",
-      "P        ZZZZZ    G ",
+      "P                  G",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+    ],
+  },
+  {
+    name: "It's still watching",
+    note: "The floor and the door, both at once. You know both tricks already — just not together.",
+    waitTrap: true,
+    guardDoor: true,
+    grid: [
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "P                  G",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+    ],
+  },
+  {
+    name: "Two hands tied",
+    note: "No jumping this time — you won't need it. Your hands are the only thing working against you here.",
+    jumpDisabled: true,
+    flippedControls: true,
+    guardDoor: true,
+    grid: [
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "                    ",
+      "^P                 G",
+      "####################",
+      "####################",
+      "####################",
       "####################",
       "####################",
     ],
   },
   {
-    name: "Now you don't",
-    note: "The bridge is only there half the time. Move fast, or fall onto what's under it.",
+    name: "Everything, all at once",
+    note: "Every trick you've learned, one final time, all together. Good luck.",
+    chaseFloor: true,
+    jumpAmbushSpike: true,
+    guardDoor: true,
     grid: [
       "                    ",
       "                    ",
@@ -171,53 +273,12 @@ const LEVELS: LevelDef[] = [
       "                    ",
       "                    ",
       "                    ",
-      "                    ",
-      "                    ",
-      "                    ",
-      "P                 G ",
-      "########    ########",
-      "########^^^^########",
-    ],
-    shiftPairs: [
-      {
-        a: [
-          [10, 8],
-          [10, 9],
-          [10, 10],
-          [10, 11],
-        ],
-        b: [[-1, -1]],
-        interval: 1.1,
-      },
-    ],
-  },
-  {
-    name: "Everything, always",
-    note: "A wall you can't see, spikes that rise when you get close, a bridge that isn't always there, and two doors — one's a lie.",
-    grid: [
-      "                    ",
-      "                    ",
-      "   T                ",
-      "                    ",
-      "                    ",
-      "                    ",
-      "                    ",
-      "                    ",
-      "                    ",
-      "P    I  ZZ       DD ",
-      "############   #####",
-      "############^^^#####",
-    ],
-    shiftPairs: [
-      {
-        a: [
-          [10, 12],
-          [10, 13],
-          [10, 14],
-        ],
-        b: [[-1, -1]],
-        interval: 1.1,
-      },
+      "P                  G",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
+      "#########qq#########",
     ],
   },
 ];
@@ -343,6 +404,22 @@ interface CollapseRun {
   triggered: boolean;
 }
 
+/** A spike sliding continuously between two pixel positions, ping-ponging forever. */
+interface PatrolSpikeState {
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+  period: number;
+  t: number;
+  curX: number;
+  curY: number;
+  /** Sits motionless at x0/y0 — indistinguishable from an ordinary static spike — until the player gets close, then starts sliding. */
+  armed: boolean;
+  /** Once armed, chases the player's x position directly instead of patrolling between x0/x1. */
+  homing: boolean;
+}
+
 /**
  * A contiguous run of 'Z' tiles that rises together once the player gets close, rather than
  * rising only once the player is near, not on a blind global timer. idle (safe, waiting) -> warning (safe, telegraphing) ->
@@ -402,6 +479,11 @@ interface EngineState {
   chaseCols: number[];
   /** Seconds the player has stood on the current chase column, waiting to trigger its drop. */
   chaseColTimer: number;
+  /** Level 5's second troll: the player's own first jump is the trigger — a spike erupts ahead and slides left to meet them. "idle" before the jump, "rising" while it telegraphs, "sliding" once it's deadly and moving, "done" once it's slid off-screen. */
+  jumpSpikeState: "idle" | "rising" | "sliding" | "done";
+  jumpSpikeX: number;
+  jumpSpikeY: number;
+  jumpSpikeTimer: number;
 }
 
 interface OverlayState {
@@ -429,6 +511,12 @@ export function TrollJump() {
   const [headImage, setHeadImage] = useLocalStorageJSON<string | null>("troll-jump-head-image", null);
   const [headShape, setHeadShape] = useLocalStorageJSON<HeadShape>("troll-jump-head-shape", "round");
   const [cropFile, setCropFile] = useState<File | null>(null);
+  // Touch capability rather than viewport width — landscape phones are often wider than the
+  // usual "mobile" breakpoint, and the on-screen controls need to stay up there too.
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  useEffect(() => {
+    setIsTouchDevice(window.matchMedia("(any-pointer: coarse)").matches);
+  }, []);
 
   // Bridges into the mount-only engine effect below, which reads these live via .current
   // rather than depending on headImage/headShape directly (see restartRef etc. for the
@@ -485,6 +573,10 @@ export function TrollJump() {
       chaseArmed: false,
       chaseCols: [],
       chaseColTimer: 0,
+      jumpSpikeState: "idle",
+      jumpSpikeX: 0,
+      jumpSpikeY: 0,
+      jumpSpikeTimer: 0,
     };
     const player: PlayerState = { x: 0, y: 0, vx: 0, vy: 0, onGround: false, face: 1, walkPhase: 0 };
     let grid: string[][] = [];
@@ -495,12 +587,35 @@ export function TrollJump() {
     let goalPos: { r: number; c: number } | null = null;
     let shiftPairsState: ShiftPairState[] = [];
     let shiftTileMap: Record<string, { pairIndex: number; side: "a" | "b" }> = {};
+    let patrolSpikeState: PatrolSpikeState[] = [];
+    // Moving-door state: the waypoints the door hops between, which one it's currently on, and
+    // its ping-pong direction. Empty when the current level's door doesn't move.
+    let doorWaypoints: { r: number; c: number }[] = [];
+    let doorIndex = 0;
+    let doorDir: 1 | -1 = 1;
+    let doorStepTimer = 0;
+    /** The door sits still — a perfectly normal-looking exit — until the player gets close, then starts running. */
+    let doorArmed = false;
+    const DOOR_STEP_INTERVAL = 0.35;
+    const TRAP_ARM_RANGE = TS * 2.5;
+    const SPIKE_HOMING_SPEED = 230;
+    // Level 6's second troll: right as the player is closing in, the door hops clean over their
+    // head to a spot behind them — "idle" beforehand, "jumping" mid-arc (ungrabbable, no 'G'
+    // tile exists anywhere while airborne), then back to "idle" once it lands for good.
+    let doorJumpArmed = false;
+    let doorJumpState: "idle" | "jumping" = "idle";
+    let doorJumpFromX = 0;
+    let doorJumpToX = 0;
+    let doorJumpRow = 0;
+    let doorJumpToCol = 0;
+    let doorJumpT = 0;
+    const DOOR_JUMP_DURATION = 0.5;
+    const DOOR_JUMP_ARC = TS * 2;
     const start = { x: 0, y: 0 };
     let flash = 0;
     let lastWalkStep = 0;
     const keys: Record<string, boolean> = {};
     let audioCtx: AudioContext | null = null;
-
     /** Tiny synthesized-tone player shared by every sound effect — no audio assets needed. */
     function playTone(freqStart: number, freqEnd: number, duration: number, type: OscillatorType, volume: number) {
       try {
@@ -578,6 +693,18 @@ export function TrollJump() {
       gs.chaseArmed = false;
       gs.chaseCols = [];
       gs.chaseColTimer = 0;
+      gs.jumpSpikeState = "idle";
+      gs.jumpSpikeX = 0;
+      gs.jumpSpikeY = 0;
+      gs.jumpSpikeTimer = 0;
+      doorWaypoints = [];
+      doorIndex = 0;
+      doorDir = 1;
+      doorStepTimer = 0;
+      doorArmed = false;
+      doorJumpArmed = false;
+      doorJumpState = "idle";
+      doorJumpT = 0;
       goalPos = null;
       grid = LEVELS[i].grid.map((row) => {
         const arr = row.split("");
@@ -604,6 +731,28 @@ export function TrollJump() {
         }
       }
       gs.realDoor = doorKeys.length ? doorKeys[Math.floor(Math.random() * doorKeys.length)] : null;
+
+      // Moving-door levels don't put a 'G' in the grid string — the door spawns at the first
+      // waypoint and steps between the rest at runtime (see the doorWaypoints block in update()).
+      if (LEVELS[i].doorPath && LEVELS[i].doorPath!.length > 1) {
+        doorWaypoints = LEVELS[i].doorPath!.map(([r, c]) => ({ r, c }));
+        const wp = doorWaypoints[0];
+        grid[wp.r][wp.c] = "G";
+        goalPos = { r: wp.r, c: wp.c };
+      }
+
+      patrolSpikeState = (LEVELS[i].patrolSpikes ?? []).map((p) => ({
+        x0: p.from[1] * TS,
+        y0: p.from[0] * TS,
+        x1: p.to[1] * TS,
+        y1: p.to[0] * TS,
+        period: p.period,
+        t: 0,
+        curX: p.from[1] * TS,
+        curY: p.from[0] * TS,
+        armed: false,
+        homing: !!p.homing,
+      }));
 
       shrinkRuns = [];
       blinkRuns = [];
@@ -670,9 +819,9 @@ export function TrollJump() {
         }
       }
 
-      // Level 5's troll: the chase picks up right where the original gap ends, and covers the
+      // Chase-floor troll: the chase picks up right where the original gap ends, and covers the
       // next 4 columns of floor.
-      if (i === 4 && collapseRuns[0]) {
+      if (LEVELS[i].chaseFloor && collapseRuns[0]) {
         const gr = collapseRuns[0];
         gs.chaseCols = [gr.maxCol + 1, gr.maxCol + 2, gr.maxCol + 3, gr.maxCol + 4];
       }
@@ -734,8 +883,8 @@ export function TrollJump() {
         gs.won = true;
         setOverlay({
           tone: "win",
-          title: "You beat it!",
-          text: `You survived all the lies in ${gs.deaths} death${gs.deaths === 1 ? "" : "s"}. Nicely done.`,
+          title: "Congratulations!",
+          text: `You survived every lie this game had, in ${gs.deaths} death${gs.deaths === 1 ? "" : "s"}. That's all ${LEVELS.length} levels — more are coming soon, so don't get too comfortable.`,
           btnLabel: "Play Again",
           quip: pickQuip(GAME_WIN_QUIPS),
           onAction: () => {
@@ -790,7 +939,7 @@ export function TrollJump() {
           const t = tileAt(r, c);
           const overlap = player.x < c * TS + TS && player.x + PW > c * TS && player.y < r * TS + TS && player.y + PH > r * TS;
           if (!overlap) continue;
-          if (gs.level === 1 && gs.guardUp && goalPos && r === goalPos.r && c === goalPos.c - 1 && player.onGround) {
+          if (LEVELS[gs.level].guardDoor && gs.guardUp && goalPos && r === goalPos.r && c === goalPos.c - 1 && player.onGround) {
             killPlayer();
             return;
           }
@@ -820,7 +969,7 @@ export function TrollJump() {
           }
           if (t === "G") {
             const guardCol = goalPos ? goalPos.c - 1 : -1;
-            const jumpingOver = gs.level === 1 && gs.guardUp && !player.onGround && player.x + PW / 2 >= guardCol * TS;
+            const jumpingOver = LEVELS[gs.level].guardDoor && gs.guardUp && !player.onGround && player.x + PW / 2 >= guardCol * TS;
             if (jumpingOver) {
               killPlayer();
             } else {
@@ -844,18 +993,28 @@ export function TrollJump() {
 
       let left = keys["arrowleft"] || keys["a"];
       let right = keys["arrowright"] || keys["d"];
-      if (gs.level === 3) [left, right] = [right, left]; // level 4's troll: the controls are flipped
+      if (LEVELS[gs.level].flippedControls) [left, right] = [right, left];
       const targetVx = (right ? MOVE : 0) - (left ? MOVE : 0);
       if (player.vx < targetVx) player.vx = Math.min(targetVx, player.vx + ACCEL * dt);
       else if (player.vx > targetVx) player.vx = Math.max(targetVx, player.vx - ACCEL * dt);
       if (player.vx > 0) player.face = 1;
       else if (player.vx < 0) player.face = -1;
 
-      const jump = keys["arrowup"] || keys["w"] || keys[" "];
+      const jump = !LEVELS[gs.level].jumpDisabled && (keys["arrowup"] || keys["w"] || keys[" "]);
       if (jump && player.onGround) {
         player.vy = -JUMP;
         player.onGround = false;
         playJumpSound();
+        // Level 5's second troll: the player's own first jump — not proximity, not a timer —
+        // is what wakes a spike near the door. It erupts from the floor, then slides left to
+        // meet whoever's coming, mid-air and all.
+        if (LEVELS[gs.level].jumpAmbushSpike && gs.jumpSpikeState === "idle") {
+          gs.jumpSpikeState = "rising";
+          gs.jumpSpikeX = 18 * TS;
+          gs.jumpSpikeY = 6 * TS;
+          gs.jumpSpikeTimer = 0;
+          playTrapAppearSound();
+        }
       }
 
       player.vy += GRAV * dt;
@@ -956,10 +1115,9 @@ export function TrollJump() {
         }
       }
 
-      // Level 1's troll (also reused verbatim by level 4): once the player has safely crossed
-      // the collapsed gap, a "WAIT" prompt appears over the door — standing still to obey it is
-      // exactly what gets punished.
-      if (gs.level === 0 || gs.level === 3) {
+      // Wait-trap troll: once the player has safely crossed the collapsed gap, a "WAIT" prompt
+      // appears over the door — standing still to obey it is exactly what gets punished.
+      if (LEVELS[gs.level].waitTrap) {
         const gapRun = collapseRuns[0];
         if (gapRun && !gs.waitArmed && gapRun.triggered && player.onGround && player.x > (gapRun.maxCol + 1) * TS) {
           gs.waitArmed = true;
@@ -979,9 +1137,9 @@ export function TrollJump() {
         }
       }
 
-      // Level 2's troll: get close to the door and a spike rises to block it — up for 5s,
+      // Guard-door troll: get close to the door and a spike rises to block it — up for 5s,
       // then down for a short safe window, then back up again if you didn't make it through.
-      if (gs.level === 1 && goalPos) {
+      if (LEVELS[gs.level].guardDoor && goalPos) {
         const gapRun = collapseRuns[0];
         if (gapRun && !gs.crossedGap && gapRun.triggered && player.onGround && player.x > (gapRun.maxCol + 1) * TS) {
           gs.crossedGap = true;
@@ -1008,10 +1166,10 @@ export function TrollJump() {
         }
       }
 
-      // Level 5's troll: the collapse doesn't stop at the original gap — once the player lands
+      // Chase-floor troll: the collapse doesn't stop at the original gap — once the player lands
       // past it, the floor keeps giving out right under their feet, chasing them column by
       // column, for a few more tiles before it finally gives up.
-      if (gs.level === 4) {
+      if (LEVELS[gs.level].chaseFloor) {
         const gapRun = collapseRuns[0];
         if (gapRun && !gs.chaseArmed && gapRun.triggered && player.onGround && player.x > (gapRun.maxCol + 1) * TS) {
           gs.chaseArmed = true;
@@ -1036,6 +1194,117 @@ export function TrollJump() {
             gs.chaseColTimer = 0;
           } else {
             gs.chaseColTimer = 0;
+          }
+        }
+
+        if (gs.jumpSpikeState === "rising") {
+          gs.jumpSpikeTimer += dt;
+          if (gs.jumpSpikeTimer > 0.35) {
+            gs.jumpSpikeState = "sliding";
+          }
+        } else if (gs.jumpSpikeState === "sliding") {
+          gs.jumpSpikeX -= 220 * dt;
+          if (gs.jumpSpikeX < -TS) {
+            gs.jumpSpikeState = "done";
+          } else if (
+            player.x < gs.jumpSpikeX + TS - 6 &&
+            player.x + PW > gs.jumpSpikeX + 6 &&
+            player.y < gs.jumpSpikeY + TS &&
+            player.y + PH > gs.jumpSpikeY + TS * 0.3
+          ) {
+            killPlayer();
+            return;
+          }
+        }
+      }
+
+      // The exit door itself patrols between fixed waypoints, hopping one tile at a time —
+      // the goal is a moving target you have to get ahead of, not chase head-on.
+      if (doorWaypoints.length > 1 && !gs.won) {
+        if (!doorArmed) {
+          if (goalPos) {
+            const doorPx = goalPos.c * TS + TS / 2;
+            const pcx = player.x + PW / 2;
+            if (Math.abs(pcx - doorPx) < TRAP_ARM_RANGE) doorArmed = true;
+          }
+        } else {
+          doorStepTimer += dt;
+          if (doorStepTimer > DOOR_STEP_INTERVAL) {
+            doorStepTimer -= DOOR_STEP_INTERVAL;
+            doorIndex += doorDir;
+            if (doorIndex >= doorWaypoints.length - 1) {
+              doorIndex = doorWaypoints.length - 1;
+              doorDir = -1;
+            } else if (doorIndex <= 0) {
+              doorIndex = 0;
+              doorDir = 1;
+            }
+            if (goalPos) grid[goalPos.r][goalPos.c] = " ";
+            const wp = doorWaypoints[doorIndex];
+            grid[wp.r][wp.c] = "G";
+            goalPos = { r: wp.r, c: wp.c };
+          }
+        }
+      }
+
+      // Looks like an ordinary motionless spike right up until the player gets close — only
+      // then does it wake up, and it either slides a fixed patrol or hunts the player directly.
+      for (const sp of patrolSpikeState) {
+        if (!sp.armed) {
+          const pcx = player.x + PW / 2;
+          if (Math.abs(pcx - sp.x0) < TRAP_ARM_RANGE) {
+            sp.armed = true;
+            playTrapAppearSound();
+          }
+        } else if (sp.homing && player.onGround) {
+          // Only tracks while the player's feet are on the ground — jumping is what loses it,
+          // same as every other spike in this game, instead of it just re-centering under you.
+          const targetX = player.x + PW / 2 - TS / 2;
+          if (sp.curX < targetX) sp.curX = Math.min(targetX, sp.curX + SPIKE_HOMING_SPEED * dt);
+          else if (sp.curX > targetX) sp.curX = Math.max(targetX, sp.curX - SPIKE_HOMING_SPEED * dt);
+        } else if (!sp.homing) {
+          sp.t += dt;
+          const phase = (sp.t % sp.period) / sp.period;
+          const frac = phase < 0.5 ? phase * 2 : 2 - phase * 2;
+          sp.curX = sp.x0 + (sp.x1 - sp.x0) * frac;
+          sp.curY = sp.y0 + (sp.y1 - sp.y0) * frac;
+        }
+        if (
+          player.x < sp.curX + TS - 6 &&
+          player.x + PW > sp.curX + 6 &&
+          player.y < sp.curY + TS &&
+          player.y + PH > sp.curY + TS * 0.3
+        ) {
+          killPlayer();
+          return;
+        }
+      }
+
+      // Level 6's second troll: closing in on the door is what wakes it up — it leaps clean
+      // over the player's head to a spot behind them, so the last stretch has to be run twice.
+      if (LEVELS[gs.level].doorJumpAway && !gs.won && !gs.dead) {
+        if (!doorJumpArmed && doorJumpState === "idle" && goalPos) {
+          const doorPx = goalPos.c * TS + TS / 2;
+          const pcx = player.x + PW / 2;
+          if (Math.abs(pcx - doorPx) < TRAP_ARM_RANGE) {
+            doorJumpArmed = true;
+            doorJumpState = "jumping";
+            doorJumpT = 0;
+            doorJumpRow = goalPos.r;
+            doorJumpFromX = goalPos.c * TS;
+            const playerCol = Math.floor(pcx / TS);
+            doorJumpToCol = Math.max(1, playerCol - 5);
+            doorJumpToX = doorJumpToCol * TS;
+            grid[goalPos.r][goalPos.c] = " ";
+            goalPos = null;
+            playTrapAppearSound();
+          }
+        } else if (doorJumpState === "jumping") {
+          doorJumpT += dt;
+          if (doorJumpT >= DOOR_JUMP_DURATION) {
+            doorJumpState = "idle";
+            grid[doorJumpRow][doorJumpToCol] = "G";
+            goalPos = { r: doorJumpRow, c: doorJumpToCol };
           }
         }
       }
@@ -1384,8 +1653,20 @@ export function TrollJump() {
         }
         if (s.type === "T" && !s.gone) drawDropper(s);
       }
+      for (const sp of patrolSpikeState) drawSpikes(sp.curX, sp.curY);
+      if (gs.jumpSpikeState === "rising") {
+        drawSpikesRising(gs.jumpSpikeX, gs.jumpSpikeY, gs.jumpSpikeTimer / 0.35);
+      } else if (gs.jumpSpikeState === "sliding") {
+        drawSpikes(gs.jumpSpikeX, gs.jumpSpikeY);
+      }
+      if (doorJumpState === "jumping") {
+        const progress = Math.min(1, doorJumpT / DOOR_JUMP_DURATION);
+        const arcX = doorJumpFromX + (doorJumpToX - doorJumpFromX) * progress;
+        const arcY = doorJumpRow * TS - Math.sin(progress * Math.PI) * DOOR_JUMP_ARC;
+        drawGoal(arcX, arcY);
+      }
 
-      if ((gs.level === 0 || gs.level === 3) && gs.waitArmed && !gs.waitDropped && !gs.won && !gs.dead && goalPos) {
+      if (LEVELS[gs.level].waitTrap && gs.waitArmed && !gs.waitDropped && !gs.won && !gs.dead && goalPos) {
         const bob = Math.sin(Date.now() / 260) * 3;
         const tx = goalPos.c * TS + TS / 2;
         const ty = goalPos.r * TS - 16 + bob;
@@ -1399,7 +1680,7 @@ export function TrollJump() {
         ctx.restore();
       }
 
-      if (gs.level === 4 && gs.chaseArmed && !gs.won && !gs.dead && goalPos) {
+      if (LEVELS[gs.level].chaseFloor && gs.chaseArmed && !gs.won && !gs.dead && goalPos) {
         const bob = Math.sin(Date.now() / 260) * 3;
         const tx = goalPos.c * TS + TS / 2;
         const ty = goalPos.r * TS - 16 + bob;
@@ -1413,7 +1694,7 @@ export function TrollJump() {
         ctx.restore();
       }
 
-      if (gs.level === 1 && goalPos) {
+      if (LEVELS[gs.level].guardDoor && goalPos) {
         const guardPx = (goalPos.c - 1) * TS;
         if (gs.guardUp) drawSpikes(guardPx, goalPos.r * TS);
 
@@ -1502,6 +1783,33 @@ export function TrollJump() {
 
   const { containerRef, isFullscreen, isSupported, toggleFullscreen, portalContainer } = useFullscreen();
 
+  // The canvas is wide (20:12), so on phones fullscreen is only actually useful in landscape —
+  // lock to it whenever fullscreen is entered on a narrow viewport, and release on the way out.
+  useEffect(() => {
+    const orientation = (screen as unknown as { orientation?: { lock?: (o: string) => Promise<void>; unlock?: () => void } })
+      .orientation;
+    if (isFullscreen) {
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        orientation?.lock?.("landscape").catch(() => {});
+      }
+    } else {
+      try {
+        orientation?.unlock?.();
+      } catch {
+        // ignore — some browsers throw when nothing is locked
+      }
+    }
+  }, [isFullscreen]);
+
+  // On phones, jumping straight into gameplay without fullscreen means playing a wide 20:12
+  // canvas squeezed into a portrait-width strip — so entering fullscreen (which triggers the
+  // landscape lock above) is what actually makes the game playable there.
+  function enterMobileFullscreen() {
+    if (!isSupported || isFullscreen) return;
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
+    toggleFullscreen();
+  }
+
   return (
     <div
       ref={containerRef}
@@ -1560,6 +1868,7 @@ export function TrollJump() {
                         jumpToLevelRef.current(i);
                         setOverlay(null);
                         setStarted(true);
+                        enterMobileFullscreen();
                       }}
                       title={locked ? "Locked — clear the previous level first" : lvl.name}
                       aria-label={`Level ${i + 1}: ${lvl.name}${locked ? " (locked)" : ""}`}
@@ -1595,6 +1904,7 @@ export function TrollJump() {
               onClick={() => {
                 startActionRef.current();
                 setStarted(true);
+                enterMobileFullscreen();
               }}
               className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-600 to-blue-500 px-5 py-2 text-sm font-semibold text-white"
             >
@@ -1621,8 +1931,8 @@ export function TrollJump() {
           </div>
         ) : null}
 
-        {started && !overlay ? (
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-between p-4 pb-4 md:hidden">
+        {started && !overlay && isTouchDevice ? (
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-between p-4 pb-4">
             <div className="pointer-events-auto flex gap-8 ">
               <TouchControlButton keyName="ArrowLeft" ariaLabel="Move left" className="flex h-14 w-14 items-center justify-center">
                 <ChevronLeft className="h-7 w-7" aria-hidden />
