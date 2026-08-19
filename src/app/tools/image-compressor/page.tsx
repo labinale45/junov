@@ -11,7 +11,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-compressor")!;
 
 export const metadata: Metadata = {
-  title: "Image Compressor — Free, No Upload",
+  title: "Image Compressor — Compress a Picture Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },
@@ -35,10 +35,10 @@ export default function ImageCompressorPage() {
     <ToolLayout toolSlug="image-compressor">
       <ToolJsonLd tool={tool} />
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-violet-400">Image Tools</p>
-      <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">Free Image Compressor</h1>
+      <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">Free Image Compressor — Compress a Picture in Seconds</h1>
       <p className="mb-8 max-w-2xl text-lg text-slate-400">
-        Shrink JPG, PNG, WebP and AVIF images without a noticeable quality drop — entirely in your browser. Nothing
-        is ever uploaded to a server.
+        Compress a picture, photo, or graphic — JPG, PNG, WebP and AVIF — without a noticeable quality drop, entirely
+        in your browser. Nothing is ever uploaded to a server.
       </p>
 
       <ImageCompressor />

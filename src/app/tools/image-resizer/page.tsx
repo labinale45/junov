@@ -9,7 +9,7 @@ const siteUrl = getSiteUrl();
 const tool = getToolBySlug("image-resizer")!;
 
 export const metadata: Metadata = {
-  title: "Image Resizer — Free, No Upload",
+  title: "Image Resizer — Resize Images Free, No Upload",
   description: tool.description,
   keywords: tool.keywords,
   alternates: { canonical: `${siteUrl}/tools/${tool.slug}` },
@@ -33,9 +33,9 @@ export default function ImageResizerPage() {
     <ToolLayout toolSlug="image-resizer">
       <ToolJsonLd tool={tool} />
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-violet-400">Image Tools</p>
-      <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">Free Image Resizer</h1>
+      <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">Free Image Resizer — Resize Images by Pixels or Percent</h1>
       <p className="mb-8 max-w-2xl text-lg text-slate-400">
-        Resize JPG, PNG, or WebP images by exact pixels or by percentage, with an optional locked aspect ratio —
+        Resize a JPG, PNG, or WebP image by exact pixels or by percentage, with an optional locked aspect ratio —
         entirely in your browser. Nothing is ever uploaded to a server.
       </p>
 

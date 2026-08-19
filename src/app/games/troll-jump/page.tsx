@@ -10,7 +10,7 @@ const siteUrl = getSiteUrl();
 const game = getGameBySlug("troll-jump")!;
 
 export const metadata: Metadata = {
-  title: "Troll Jump — Free Trick Platformer Online",
+  title: "Troll Jump — Free Stickman Trick Platformer Online",
   description: game.description,
   keywords: game.keywords,
   alternates: { canonical: `${siteUrl}/games/${game.slug}` },

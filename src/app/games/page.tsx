@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Free Online Games — Play Instantly",
   description:
     "Free browser games. Memory Match, Tic-Tac-Toe vs AI, Minesweeper, and Troll Jump. No login, no download, runs instantly in your browser.",
-  keywords: ["free online games", "browser games", "no download games", "play games online free"],
+  keywords: ["free online games", "browser games", "no download games", "play games online free", "stickman game", "free puzzle games online"],
   alternates: { canonical: `${siteUrl}/games` },
   openGraph: {
     title: "Free Online Games — Play Instantly | Rabin Ale",
