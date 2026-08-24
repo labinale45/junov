@@ -63,6 +63,30 @@ export default function ImageMetadataPage() {
           <li>If GPS coordinates are present, click &quot;View on Google Maps&quot; to see where the photo was taken.</li>
           <li>Click &quot;Copy all metadata as JSON&quot; to export every detected field at once.</li>
         </ol>
+
+        <h2 className="text-xl font-bold text-slate-50">When to Use an EXIF Data Viewer</h2>
+        <ul className="list-disc space-y-2 pl-6 text-slate-400">
+          <li>
+            <strong className="text-slate-200">Photographers</strong> reviewing the exact camera settings — ISO,
+            aperture, shutter speed — used on a shot they want to replicate.
+          </li>
+          <li>
+            <strong className="text-slate-200">Privacy-conscious users</strong> checking whether a photo still
+            carries GPS coordinates before posting it publicly.
+          </li>
+          <li>
+            <strong className="text-slate-200">Journalists and researchers</strong> verifying when and how an image
+            was captured as part of source-checking.
+          </li>
+          <li>
+            <strong className="text-slate-200">Developers</strong> debugging why an app isn&apos;t reading a
+            camera&apos;s EXIF orientation or timestamp correctly.
+          </li>
+          <li>
+            <strong className="text-slate-200">Anyone curious</strong> about which device or camera actually took a
+            photo they downloaded.
+          </li>
+        </ul>
       </section>
     </ToolLayout>
   );

@@ -66,6 +66,34 @@ export default function ImageBase64Page() {
           <li>To decode, paste a full data URL or a raw Base64 string into the text box.</li>
           <li>Review the live image preview, then click Download image to save the result.</li>
         </ol>
+
+        <h2 className="text-xl font-bold text-slate-50">When to Use an Image to Base64 Converter</h2>
+        <ul className="list-disc space-y-2 pl-6 text-slate-400">
+          <li>
+            <strong className="text-slate-200">Frontend developers</strong> inlining small icons or sprites directly
+            into CSS or HTML to save an extra network request.
+          </li>
+          <li>
+            <strong className="text-slate-200">Email developers</strong> embedding logo or signature images that
+            need to render without loading external assets.
+          </li>
+          <li>
+            <strong className="text-slate-200">Students and self-taught coders</strong> learning how data URLs work
+            while building their first web pages.
+          </li>
+          <li>
+            <strong className="text-slate-200">API developers</strong> who need to send an image as a JSON string
+            field instead of a binary file upload.
+          </li>
+          <li>
+            <strong className="text-slate-200">Designers</strong> testing how a favicon or logo looks as an inline
+            data URL before shipping it to production.
+          </li>
+          <li>
+            <strong className="text-slate-200">Anyone decoding a Base64 string</strong> from an API response or a
+            code snippet who just needs to see and save the actual image.
+          </li>
+        </ul>
       </section>
     </ToolLayout>
   );

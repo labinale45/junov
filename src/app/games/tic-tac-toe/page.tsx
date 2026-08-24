@@ -59,6 +59,26 @@ export default function TicTacToePage() {
           (it pulses just before it disappears). The board can never fill up, so play keeps going until someone
           actually wins.
         </p>
+
+        <h2 className="text-xl font-bold text-slate-50">When to Play Tic-Tac-Toe Online</h2>
+        <ul className="list-disc space-y-2 pl-6 text-slate-400">
+          <li>
+            <strong className="text-slate-200">Students</strong> wanting a tic-tac-toe unblocked option that loads
+            instantly on school networks and shared computers.
+          </li>
+          <li>
+            <strong className="text-slate-200">Two friends on one device</strong> looking for a quick local 2-player
+            game with no account needed.
+          </li>
+          <li>
+            <strong className="text-slate-200">Anyone testing their strategy</strong> against a perfect-play AI to
+            see if they can force a draw.
+          </li>
+          <li>
+            <strong className="text-slate-200">Casual players</strong> who want short, replayable rounds during a
+            quick break.
+          </li>
+        </ul>
       </section>
     </GameLayout>
   );

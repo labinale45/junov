@@ -63,6 +63,30 @@ export default function WatermarkPage() {
           <li>Use the nine-point grid to anchor the watermark to a corner, edge, or the center of the photo.</li>
           <li>Check the live preview, then click Download Watermarked Image to save the result.</li>
         </ol>
+
+        <h2 className="text-xl font-bold text-slate-50">When to Add a Watermark to a Photo</h2>
+        <ul className="list-disc space-y-2 pl-6 text-slate-400">
+          <li>
+            <strong className="text-slate-200">Photographers</strong> protecting proofs or portfolio shots before
+            sharing them publicly online.
+          </li>
+          <li>
+            <strong className="text-slate-200">Small business owners</strong> branding product photos for a shop,
+            marketplace listing, or social media page.
+          </li>
+          <li>
+            <strong className="text-slate-200">Freelancers and designers</strong> adding a signature or logo to
+            client previews before final delivery.
+          </li>
+          <li>
+            <strong className="text-slate-200">Content creators</strong> marking screenshots or graphics so reposts
+            stay traceable back to the original source.
+          </li>
+          <li>
+            <strong className="text-slate-200">Real estate and event photographers</strong> stamping a studio name
+            across gallery previews.
+          </li>
+        </ul>
       </section>
     </ToolLayout>
   );

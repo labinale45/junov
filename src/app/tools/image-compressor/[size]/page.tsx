@@ -119,6 +119,30 @@ export default async function ImageCompressorSizePage({ params }: Props) {
           <li>Download the result, or start over with a new image.</li>
         </ol>
 
+        <h2 className="text-xl font-bold text-slate-50">When to Compress an Image to {preset.label}</h2>
+        <ul className="list-disc space-y-2 pl-6 text-slate-400">
+          <li>
+            <strong className="text-slate-200">Job applicants</strong> whose application portal or ATS rejects
+            resume photos or attachments over a set file size.
+          </li>
+          <li>
+            <strong className="text-slate-200">Students</strong> submitting assignments to platforms with strict
+            upload limits.
+          </li>
+          <li>
+            <strong className="text-slate-200">Government and visa form applicants</strong> who need a photo under
+            an exact size specified in the instructions.
+          </li>
+          <li>
+            <strong className="text-slate-200">Anyone emailing photos</strong> who wants to stay under an
+            attachment size cap without switching to a file-sharing link.
+          </li>
+          <li>
+            <strong className="text-slate-200">Website owners</strong> keeping page weight down for faster load
+            times and better Core Web Vitals.
+          </li>
+        </ul>
+
         <h2 className="text-xl font-bold text-slate-50">Other Target Sizes</h2>
         <div className="flex flex-wrap gap-2">
           {otherPresets.map((p) => (

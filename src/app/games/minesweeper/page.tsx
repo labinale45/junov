@@ -49,12 +49,44 @@ export default function MinesweeperPage() {
       <section className="mt-14 max-w-3xl space-y-4 leading-relaxed text-slate-300">
         <h2 className="text-xl font-bold text-slate-50">How to Play Minesweeper</h2>
         <p className="text-slate-400">
-          Click any tile to reveal it. Revealed tiles show a number telling you how many mines are hiding in the up
-          to eight surrounding tiles — use that information to logically deduce which nearby tiles are safe. Your
-          first click is always guaranteed safe, along with its immediate neighbors. Right-click on desktop, or open
-          the settings menu (gear icon above the board) and turn on Flag mode to tap-flag tiles on mobile. Clear
-          every tile that isn&apos;t a mine to win; click a mine and it&apos;s game over.
+          Minesweeper is a free logic puzzle for anyone who wants a quick, no-download brain game — students on a
+          school computer, developers taking a break between tickets, or classic-game fans who grew up with the
+          Windows version. Click any tile to reveal it. Revealed tiles show a number telling you how many mines are
+          hiding in the up to eight surrounding tiles — use that information to logically deduce which nearby tiles
+          are safe.
         </p>
+        <ol className="list-decimal space-y-2 pl-6 text-slate-400">
+          <li>Pick a difficulty from the settings menu (gear icon above the board): Beginner or Intermediate.</li>
+          <li>Click any tile to start — your first click is always guaranteed safe, along with its immediate neighbors.</li>
+          <li>Read the numbers on revealed tiles: each one tells you how many mines touch it.</li>
+          <li>Right-click a tile to flag it as a suspected mine (or turn on Flag mode in settings on mobile, then tap to flag).</li>
+          <li>Keep revealing tiles you&apos;ve logically proven are safe until every non-mine tile is uncovered.</li>
+          <li>Click a mine and it&apos;s game over — restart instantly from the toolbar to try again.</li>
+        </ol>
+
+        <h2 className="text-xl font-bold text-slate-50">When to Play Minesweeper Online</h2>
+        <ul className="list-disc space-y-2 pl-6 text-slate-400">
+          <li>
+            <strong className="text-slate-200">Students</strong> looking for a Minesweeper unblocked option that
+            works on school Chromebooks and shared lab computers.
+          </li>
+          <li>
+            <strong className="text-slate-200">Developers and office workers</strong> wanting a fast, logic-based
+            break between tasks without installing anything.
+          </li>
+          <li>
+            <strong className="text-slate-200">Classic PC game fans</strong> who grew up with Minesweeper on Windows
+            and want the same ruleset in a browser.
+          </li>
+          <li>
+            <strong className="text-slate-200">Commuters and mobile players</strong> who want a touch-friendly
+            puzzle that doesn&apos;t need a data-heavy app download.
+          </li>
+          <li>
+            <strong className="text-slate-200">Anyone practicing logical deduction</strong> as a low-stakes way to
+            sharpen pattern recognition and probability thinking.
+          </li>
+        </ul>
       </section>
     </GameLayout>
   );
