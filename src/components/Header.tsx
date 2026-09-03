@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,7 +17,7 @@ const navLinks = [
   { href: "/#typingowl", label: "TypingOwl", icon: CodeIcon },
   { href: "/#explore", label: "Explore", icon: CompassIcon },
   { href: "/games", label: "Games", icon: GameIcon },
-  { href: "/#blog", label: "Blog", icon: BlogIcon },
+  { href: "/gta-6", label: "GTA 6", icon: GameIcon },
   { href: "/#about", label: "About", icon: UserIcon },
   { href: "/#contact", label: "Contact", icon: MailIcon },
 ];
@@ -103,6 +104,7 @@ function CompassIcon() {
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > HEADER_SCROLL_THRESHOLD);
@@ -123,7 +125,8 @@ export function Header() {
             transition={{ duration: 0.2 }}
             className="fixed top-0 left-0 right-0 z-50"
           >
-            <nav className="container mx-auto px-6 lg:px-12 py-4 flex justify-between items-center">
+            <nav className="container mx-auto px-4 py-3 sm:px-6 lg:px-12 lg:py-4">
+              <div className="flex items-center justify-between">
               <Link href="/" className="flex items-center gap-3">
                 <Image
                   src="/Logo.png"
@@ -136,7 +139,7 @@ export function Header() {
                   Mr.J
                 </span>
               </Link>
-              <div className="hidden lg:flex flex-wrap gap-x-6 gap-y-2 justify-end max-w-3xl items-center">
+              <div className="hidden lg:flex flex-wrap gap-x-5 gap-y-2 justify-end max-w-4xl items-center">
                 {navLinks.map((link) => (
                   <NavHashLink
                     key={link.href + link.label}
@@ -147,6 +150,13 @@ export function Header() {
                   </NavHashLink>
                 ))}
               </div>
+              <button type="button" aria-expanded={mobileOpen} aria-controls="mobile-navigation" aria-label={mobileOpen ? "Close navigation" : "Open navigation"} onClick={() => setMobileOpen((open) => !open)} className="rounded-lg border border-white/10 p-2 text-slate-200 hover:bg-white/10 lg:hidden">
+                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+              </div>
+              {mobileOpen ? <div id="mobile-navigation" className="mt-3 grid max-h-[70vh] overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/95 p-2 shadow-2xl lg:hidden">
+                {navLinks.map((link) => <NavHashLink key={link.href + link.label} href={link.href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-medium text-slate-200 hover:bg-white/10">{link.label}</NavHashLink>)}
+              </div> : null}
             </nav>
           </motion.header>
         ) : null}

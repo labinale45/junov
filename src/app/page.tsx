@@ -12,6 +12,7 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { LatestBlogPosts } from "@/components/LatestBlogPosts";
 import { ScrollToHashOnLoad } from "@/components/ScrollToHashOnLoad";
+import { HomeFaq } from "@/components/HomeFaq";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
@@ -62,6 +63,13 @@ const websiteJsonLd = {
     "Portfolio, blog, and developer tools by Rabin Ale—full-stack engineering, Java and web teaching, and project case studies.",
 };
 
+const faqJsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
+  ["What does Rabin Ale build?", "Rabin Ale builds AI-powered products, full-stack web applications, developer tools, educational resources, and interactive browser experiences."],
+  ["Are the online developer tools free?", "The tools on this site are designed for quick browser-based use, including image compression, conversion, metadata inspection, JSON formatting, and code explanations."],
+  ["Where can I learn programming?", "The site includes practical programming and web design courses, tutorials, project guides, and beginner-friendly explanations."],
+  ["Can I play games in my browser?", "Yes. The Games section includes lightweight browser games such as memory match, Minesweeper, Tic-Tac-Toe, and Troll Jump."],
+].map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) };
+
 export default function Home() {
   return (
     <>
@@ -73,6 +81,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <Header />
       <ScrollToHashOnLoad />
       <main>
@@ -85,6 +94,7 @@ export default function Home() {
         <Experience />
         <Achievements />
         <Explore />
+        <HomeFaq />
         <TechStack />
         <Contact />
         <Footer />

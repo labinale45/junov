@@ -23,6 +23,7 @@ function isDockHiddenRoute(pathname: string) {
     pathname.startsWith("/course") ||
     pathname.startsWith("/blog") ||
     pathname.startsWith("/projects")
+    || pathname.startsWith("/gta-6")
   );
 }
 

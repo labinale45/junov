@@ -10,6 +10,108 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "gta-6-trailers-what-rockstar-has-confirmed",
+    title: "GTA 6 Trailers: What Rockstar Has Confirmed So Far",
+    description: "A clear guide to the official GTA 6 trailers, their confirmed characters and setting details, and how to avoid mistaking fan theories for facts.",
+    date: "2026-09-01",
+    category: "GTA 6",
+    readTimeMinutes: 8,
+    body: `
+The official GTA 6 trailers are the best starting point for understanding Rockstar's announced direction. This guide summarizes what is visible or stated in official material without reposting copyrighted video or screenshots.
+
+## What to look for
+
+Pay attention to the announced setting, Jason and Lucia's relationship, the atmosphere of Leonida, and the way the trailers establish the game's social-media-inspired world. A trailer can show a scene without confirming every gameplay system behind it.
+
+## How to read trailer claims responsibly
+
+We separate direct observations from interpretation. A visible location is not automatically proof of the complete map, and a vehicle shown in a trailer does not guarantee every vehicle will be available at launch.
+
+For the original videos and announcements, use Rockstar's [official GTA VI page](https://www.rockstargames.com/VI). We link to official material instead of hosting or copying it.
+`.trim(),
+  },
+  {
+    slug: "gta-6-vice-city-leonida-setting-guide",
+    title: "GTA 6 Vice City and Leonida Setting Guide",
+    description: "What is officially known about GTA 6's Vice City and Leonida setting, plus how to separate confirmed locations from speculation.",
+    date: "2026-08-30",
+    category: "GTA 6",
+    readTimeMinutes: 7,
+    body: `
+GTA 6 returns players to Vice City as part of the fictional state of Leonida. The setting combines a recognizable neon coastal city with wider environments that Rockstar has shown in official material.
+
+## Confirmed versus inferred
+
+Vice City and Leonida are confirmed. The exact size of the final map, every neighborhood, and the full list of activities should remain marked as unconfirmed until Rockstar says otherwise.
+
+## Why the setting matters
+
+A strong setting guide helps readers understand the tone, geography, and characters without relying on leaks. We update this page when a primary source adds a concrete detail and keep older claims labeled with their verification date.
+
+This is an independent summary. For original announcements, visit [Rockstar Newswire](https://www.rockstargames.com/newswire).
+`.trim(),
+  },
+  {
+    slug: "gta-6-release-date-platforms-and-everything-confirmed",
+    title: "GTA 6 Release Date, Platforms, and Everything Confirmed",
+    description: "A fact-checked guide to GTA 6's launch date, consoles, setting, pre-orders, and the difference between confirmed details and speculation.",
+    date: "2026-09-03",
+    category: "GTA 6",
+    readTimeMinutes: 6,
+    body: `
+Grand Theft Auto VI is currently scheduled to launch on **November 19, 2026** for **PlayStation 5 and Xbox Series X|S**. Rockstar has also published pre-order information, but availability and edition details can vary by region.
+
+## What Rockstar has confirmed
+
+- The game is set in the state of **Leonida**, including a return to **Vice City**.
+- The central characters are **Jason Duval** and **Lucia Caminos**.
+- The announced launch platforms are PlayStation 5 and Xbox Series X|S.
+- Rockstar's official page and Newswire are the source of truth for launch changes.
+
+## What is not confirmed
+
+PC timing, every gameplay system, the complete map, and many online features remain unconfirmed unless Rockstar publishes them. Treat social posts and leaked material as speculation, not as news.
+
+## How this page is maintained
+
+We check official Rockstar announcements before changing the date, platforms, or product information. This guide was last verified on **September 3, 2026**.
+
+For the latest primary-source information, visit the [official GTA VI page](https://www.rockstargames.com/VI).
+`.trim(),
+  },
+  {
+    slug: "gta-6-confirmed-facts-vs-rumors",
+    title: "GTA 6 Confirmed Facts vs Rumors: A Practical Guide",
+    description: "Learn how to separate Rockstar's confirmed GTA 6 details from leaks, fan theories, and headlines that overstate what is known.",
+    date: "2026-09-02",
+    category: "GTA 6",
+    readTimeMinutes: 7,
+    body: `
+GTA 6 coverage moves quickly, but speed does not make an unverified claim true. The safest way to follow the game is to classify each detail by its source.
+
+## Confirmed
+
+Confirmed information comes directly from Rockstar's Newswire, official trailers, product pages, or a clearly attributed publisher announcement. Keep the original link and publication date with the claim.
+
+## Reported
+
+Reported information may come from a credible outlet quoting a source. It can be useful, but it should be labeled as reported and should never be written as a guarantee.
+
+## Rumor or theory
+
+Leaks, anonymous posts, fan maps, and predictions belong here. They can be entertaining discussion topics, but they need an explicit label and should not be used as evidence for release plans or product features.
+
+## A quick reader checklist
+
+1. Is there a primary source?
+2. Does the wording distinguish fact from expectation?
+3. Has the claim been contradicted or superseded?
+4. Is the publication date visible?
+
+This approach keeps a GTA 6 guide useful after the news cycle moves on.
+`.trim(),
+  },
+  {
     slug: "java-nullpointerexception-beginners-guide",
     title: "Java NullPointerException: A Beginner-Friendly Guide to Causes and Fixes",
     description:

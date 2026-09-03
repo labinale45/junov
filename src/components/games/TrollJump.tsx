@@ -515,7 +515,11 @@ export function TrollJump() {
   // usual "mobile" breakpoint, and the on-screen controls need to stay up there too.
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   useEffect(() => {
-    setIsTouchDevice(window.matchMedia("(any-pointer: coarse)").matches);
+    const mediaQuery = window.matchMedia("(any-pointer: coarse)");
+    const updateTouchDevice = () => setIsTouchDevice(mediaQuery.matches);
+    updateTouchDevice();
+    mediaQuery.addEventListener("change", updateTouchDevice);
+    return () => mediaQuery.removeEventListener("change", updateTouchDevice);
   }, []);
 
   // Bridges into the mount-only engine effect below, which reads these live via .current
