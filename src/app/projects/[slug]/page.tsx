@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ChevronRight, ExternalLink, GitFork } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { PortfolioFrame } from "@/components/PortfolioFrame";
 import { ArticleBody } from "@/components/markdown/ArticleBody";
 import { Reveal } from "@/components/immersive/Reveal";
 import { getAllProjectSlugs, getProjectBySlug } from "@/content/projects/cases";
@@ -75,7 +76,7 @@ export default async function ProjectCasePage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <main className="flex-1 container mx-auto px-6 lg:px-12 py-12 lg:py-16 max-w-3xl">
+      <PortfolioFrame><article className="pf-case-study container mx-auto max-w-3xl">
         <Reveal>
           <div className="mb-6 flex items-center gap-3">
             <BrandLogo size={32} />
@@ -160,11 +161,11 @@ export default async function ProjectCasePage({ params }: Props) {
             <ArrowLeft className="h-4 w-4" aria-hidden />
             All projects
           </Link>
-          <Link href="/#projects" className="text-sm text-slate-400 hover:text-slate-300">
-            View carousel on home
+          <Link href="/" className="text-sm text-slate-400 hover:text-slate-300">
+            Back to portfolio
           </Link>
         </div>
-      </main>
+      </article></PortfolioFrame>
     </>
   );
 }

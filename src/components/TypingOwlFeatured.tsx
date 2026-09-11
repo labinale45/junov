@@ -103,7 +103,7 @@ export function TypingOwlFeatured() {
                     Visit Website
                   </Link>
                   <Link
-                    href="#contact"
+                    href="/projects/typingowl"
                     className="px-6 py-3 glass rounded-xl font-medium hover:bg-slate-800/60 transition-colors"
                   >
                     Case Study

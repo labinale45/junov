@@ -31,7 +31,7 @@ export default function GtaSixPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-    <main className="flex-1 bg-slate-950">
+    <div className="flex-1 bg-slate-950">
       <section className="container mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12 lg:px-12 lg:pt-14">
         <div className="mb-7 flex items-center gap-3">
           <BrandLogo size={42} className="ring-2 ring-white/10" />
@@ -87,7 +87,7 @@ export default function GtaSixPage() {
 
         <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-slate-600">This is an independent fan and information page, not affiliated with Rockstar Games or Take-Two Interactive. GTA, Grand Theft Auto, Rockstar Games, names, marks, and related media belong to their respective owners. We use original summaries and link to official sources; we do not host copyrighted trailers, screenshots, logos, or leaked material.</p>
       </section>
-    </main>
+    </div>
     </>
   );
 }

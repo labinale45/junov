@@ -87,7 +87,7 @@ export default function GamesIndexPage() {
   };
 
   return (
-    <main className="relative flex-1 overflow-hidden bg-[#0a0f1e]">
+    <div className="relative flex-1 overflow-hidden bg-[#0a0f1e]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
@@ -168,6 +168,6 @@ export default function GamesIndexPage() {
           <ToolFAQ faqs={HUB_FAQS} />
         </section>
       </div>
-    </main>
+    </div>
   );
 }

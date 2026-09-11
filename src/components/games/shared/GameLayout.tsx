@@ -19,7 +19,7 @@ export function GameLayout({
   const otherGames = getOtherGames(gameSlug);
 
   return (
-    <main className="relative flex-1 overflow-hidden bg-[#0a0f1e]">
+    <div className="relative flex-1 overflow-hidden bg-[#0a0f1e]">
       <AdSenseScript />
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 right-0 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,_rgba(124,58,237,0.16)_0%,_transparent_70%)] blur-2xl" />
@@ -86,6 +86,6 @@ export function GameLayout({
           </section>
         ) : null}
       </div>
-    </main>
+    </div>
   );
 }

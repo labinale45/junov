@@ -214,3 +214,13 @@ body.pb-dock-safe {
     animation: none;
   }
 }
+/* Hide scrollbar chrome without disabling scrolling or keyboard navigation. */
+html, body, body * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar, body *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}

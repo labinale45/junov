@@ -1,18 +1,4 @@
-import { Hero } from "@/components/Hero";
-import { Header } from "@/components/Header";
-import { About } from "@/components/About";
-import { TypingOwlFeatured } from "@/components/TypingOwlFeatured";
-import { Projects } from "@/components/Projects";
-import { Skills } from "@/components/Skills";
-import { Experience } from "@/components/Experience";
-import { Achievements } from "@/components/Achievements";
-import { Explore } from "@/components/Explore";
-import { TechStack } from "@/components/TechStack";
-import { Contact } from "@/components/Contact";
-import { Footer } from "@/components/Footer";
-import { LatestBlogPosts } from "@/components/LatestBlogPosts";
-import { ScrollToHashOnLoad } from "@/components/ScrollToHashOnLoad";
-import { HomeFaq } from "@/components/HomeFaq";
+import { PortfolioHome } from "@/components/PortfolioHome";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
@@ -82,23 +68,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <Header />
-      <ScrollToHashOnLoad />
-      <main>
-        <Hero />
-        <About />
-        <TypingOwlFeatured />
-        <LatestBlogPosts />
-        <Projects />
-        <Skills />
-        <Experience />
-        <Achievements />
-        <Explore />
-        <HomeFaq />
-        <TechStack />
-        <Contact />
-        <Footer />
-      </main>
+      <PortfolioHome />
     </>
   );
 }

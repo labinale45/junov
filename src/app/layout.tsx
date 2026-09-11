@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import { FloatingDock } from "@/components/FloatingDock";
 import { Toaster } from "@/components/ui/sonner";
 import { ADSENSE_PUBLISHER_ID } from "@/lib/adsense";
@@ -11,6 +11,7 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+const poppins = Poppins({ variable: "--font-portfolio", weight: ["400", "500", "600", "700", "800"], subsets:["latin"], display:"swap" });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rabinale.com.np";
 
@@ -131,7 +132,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased bg-slate-950 text-slate-100`}
+        className={`${inter.variable} ${poppins.variable} font-sans antialiased bg-slate-950 text-slate-100`}
       >
         {children}
         <FloatingDock />

@@ -41,6 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const staticRoutes: MetadataRoute.Sitemap = [
+    ...["skills", "experience", "explore", "typingowl", "achievements", "contact"].map(path => ({url:`${siteUrl}/${path}`, changeFrequency:"monthly" as const, priority:0.7})),
     { url: siteUrl, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },

@@ -18,6 +18,7 @@ const dockLinks = [
 /** Tools, Games, Course, Blog, and Projects pages get their own minimal logo-only header — no dock there. */
 function isDockHiddenRoute(pathname: string) {
   return (
+    ["/", "/skills", "/experience", "/explore", "/about", "/contact", "/typingowl", "/achievements", "/services", "/kape-tools", "/testimonials"].includes(pathname) ||
     pathname.startsWith("/tools") ||
     pathname.startsWith("/games") ||
     pathname.startsWith("/course") ||
