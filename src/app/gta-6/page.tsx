@@ -32,12 +32,7 @@ export default function GtaSixPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
     <div className="flex-1 bg-slate-950">
-      <section className="container mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12 lg:px-12 lg:pt-14">
-        <div className="mb-7 flex items-center gap-3">
-          <BrandLogo size={42} className="ring-2 ring-white/10" />
-          <span className="h-5 w-px bg-white/15" aria-hidden />
-          <p className="inline-flex items-center gap-2 rounded-full border border-rose-400/20 bg-rose-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[.18em] text-rose-300"><Newspaper className="h-3.5 w-3.5" /> GTA 6 hub</p>
-        </div>
+      <section className="container mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <div className="max-w-3xl">
           <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl">Everything worth knowing about GTA 6.</h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">Verified updates, practical guides, and clearly labeled rumors for Rockstar&apos;s next open-world adventure.</p>

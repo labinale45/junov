@@ -96,15 +96,13 @@ export default function GamesIndexPage() {
         <div className="absolute top-40 right-0 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,_rgba(59,130,246,0.14)_0%,_transparent_70%)] blur-2xl" />
       </div>
 
-      <div className="relative container mx-auto max-w-6xl px-6 pb-[100px] pt-12 lg:px-12 lg:pt-16">
+      <div className="relative container mx-auto max-w-6xl px-6 pb-[100px]">
         <div className="animate-in fade-in-0 slide-in-from-bottom-2 duration-700">
-          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-violet-500/20 bg-violet-600/10 px-3 py-1 text-xs font-medium text-violet-300">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden />
-            {GAMES.length} games, forever free
+          <span className="text-[11px] uppercase tracking-[.18em] text-green-400 font-semibold ">
+            GAMES
           </span>
           <h1 className="text-4xl font-bold tracking-tight text-slate-50 lg:text-6xl">
             Free games you can play right now
-            <BrandLogo size={44} className="ml-3 hidden align-middle sm:inline-flex" />
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-400">
             Memory Match, Tic-Tac-Toe against an unbeatable AI, Minesweeper, and the trick platformer Troll Jump —{" "}
