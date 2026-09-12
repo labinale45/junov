@@ -6,13 +6,137 @@ export type ProjectEntry = {
   projectType: "Professional" | "Academic";
   collaboration?: "Individual" | "Team";
   contextLabel?: string;
-  repoUrl: string;
+  repoUrl?: string;
+  liveLabel?: string;
   liveUrl?: string;
   showcaseImage?: string;
   body: string;
 };
 
 export const projects: ProjectEntry[] = [
+  {
+    slug: "wigo",
+    title: "Wigo - Never Go Alone",
+    shortDescription: "A published Flutter app for finding nearby companions, joining activities, sharing rides and splitting costs, with in-app chat and safety features.",
+    tech: ["Flutter", "Android"],
+    projectType: "Professional",
+    contextLabel: "Published on Google Play",
+    liveUrl: "https://play.google.com/store/apps/details?id=com.rabinale.wigo&hl=en",
+    liveLabel: "Google Play",
+    showcaseImage: "/projects/wigo.png",
+    body: `
+## Overview
+
+Wigo is a Flutter mobile app I built and published on Google Play. It helps people find nearby companions for activities and shared journeys.
+
+## Features
+
+- Discover nearby people and post activities for others to join.
+- Offer or find shared rides, with automatic fare splitting.
+- Connect through in-app messaging and voice calls.
+- Optional ID verification, opt-in location sharing, SOS alerts to trusted contacts, and reporting tools.
+
+## Platform
+
+Built with Flutter and available for Android. Location visibility is controlled by the user.
+
+## Try the app
+
+[View Wigo on Google Play](https://play.google.com/store/apps/details?id=com.rabinale.wigo&hl=en).
+`.trim(),
+  },
+  {
+    slug: "homecostguide",
+    title: "HomeCostGuide",
+    shortDescription: "A home-improvement research site with US cost guides, interactive estimators, regional comparisons and maintenance advice grounded in public data.",
+    tech: ["Next.js", "Interactive calculators"],
+    projectType: "Professional",
+    contextLabel: "Live web product",
+    liveUrl: "https://homecostguide.rabinale.com.np/",
+    showcaseImage: "/projects/homecostguide.png",
+    body: `
+## Overview
+
+HomeCostGuide helps homeowners research renovation and maintenance costs before planning a project.
+
+## Features
+
+- Cost guides for remodeling, roofing, HVAC, plumbing and flooring.
+- Interactive calculators using project dimensions and details.
+- Breakdowns by material, labor, project size and region.
+- How-to articles, comparisons and a published research methodology.
+
+## Approach
+
+The Next.js site brings research and calculation tools together in a responsive interface. Published estimates are planning guidance, not contractor quotes.
+
+## Explore
+
+[Visit HomeCostGuide](https://homecostguide.rabinale.com.np/).
+`.trim(),
+  },
+  {
+    slug: "jcalc",
+    title: "JCalc",
+    shortDescription: "A browser-based calculator suite for loans, ROI, percentages and business metrics, with formula explanations, examples and no signup required.",
+    tech: ["Next.js", "Browser-based calculations"],
+    projectType: "Professional",
+    contextLabel: "Live web product",
+    liveUrl: "https://jcalc.rabinale.com.np/",
+    showcaseImage: "/projects/jcalc.png",
+    body: `
+## Overview
+
+JCalc is a collection of accessible online calculators for everyday math, finance and business planning.
+
+## Features
+
+- Fixed-rate loan payments, total interest and amortization.
+- Return on investment and percentage calculations.
+- Profit, pricing, break-even, cash flow and growth tools.
+- Unit economics including customer acquisition cost and lifetime value.
+- Formula explanations, worked examples and FAQs.
+
+## Approach
+
+Calculations run in the browser, without requiring an account or installation. The site uses Next.js and is designed for fast, clear results.
+
+## Try the tools
+
+[Visit JCalc](https://jcalc.rabinale.com.np/).
+`.trim(),
+  },
+  {
+    slug: "reflexpeak",
+    title: "ReflexPeak",
+    shortDescription: "A personal-performance platform with reaction time, click speed, aim, memory and focus tests, daily challenges and locally stored personal bests.",
+    tech: ["Next.js", "Interactive browser tests"],
+    projectType: "Professional",
+    contextLabel: "Live web product",
+    liveUrl: "https://reflexpeak.com/",
+    showcaseImage: "/projects/reflexpeak.png",
+    body: `
+## Overview
+
+ReflexPeak provides short, repeatable browser tests for personal performance practice.
+
+## Features
+
+- Reaction time and click speed tests.
+- Aim training for mouse control and accuracy.
+- Sequence memory, visual memory and choice reaction exercises.
+- Daily Peak: a rotating challenge across reaction, accuracy and memory.
+- Instant scores and locally stored personal bests and recent results.
+
+## Design considerations
+
+Clear instructions and repeatable sessions help users compare their progress on the same device. These are entertainment and personal-benchmarking tools, not medical or intelligence assessments.
+
+## Try the tests
+
+[Visit ReflexPeak](https://reflexpeak.com/).
+`.trim(),
+  },
   {
     slug: "typingowl",
     title: "TypingOwl",

@@ -118,7 +118,7 @@ export default async function ProjectCasePage({ params }: Props) {
           </div>
 
           <div className="mb-10 flex flex-wrap gap-3">
-            <Link
+            {project.repoUrl && <Link
               href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -126,7 +126,7 @@ export default async function ProjectCasePage({ params }: Props) {
             >
               <GitFork className="h-4 w-4" aria-hidden />
               View GitHub repo
-            </Link>
+            </Link>}
             {project.liveUrl ? (
               <Link
                 href={project.liveUrl}
@@ -135,7 +135,7 @@ export default async function ProjectCasePage({ params }: Props) {
                 className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all duration-200 ease-out hover:brightness-110"
               >
                 <ExternalLink className="h-4 w-4" aria-hidden />
-                Visit live product
+                {project.liveLabel || "Visit live product"}
               </Link>
             ) : null}
           </div>
