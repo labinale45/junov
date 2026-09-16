@@ -106,37 +106,37 @@ Calculations run in the browser, without requiring an account or installation. T
 [Visit JCalc](https://jcalc.rabinale.com.np/).
 `.trim(),
   },
-  {
-    slug: "reflexpeak",
-    title: "ReflexPeak",
-    shortDescription: "A personal-performance platform with reaction time, click speed, aim, memory and focus tests, daily challenges and locally stored personal bests.",
-    tech: ["Next.js", "Interactive browser tests"],
-    projectType: "Professional",
-    contextLabel: "Live web product",
-    liveUrl: "https://reflexpeak.com/",
-    showcaseImage: "/projects/reflexpeak.png",
-    body: `
-## Overview
+//   {
+//     slug: "reflexpeak",
+//     title: "ReflexPeak",
+//     shortDescription: "A personal-performance platform with reaction time, click speed, aim, memory and focus tests, daily challenges and locally stored personal bests.",
+//     tech: ["Next.js", "Interactive browser tests"],
+//     projectType: "Professional",
+//     contextLabel: "Live web product",
+//     liveUrl: "https://reflexpeak.com/",
+//     showcaseImage: "/projects/reflexpeak.png",
+//     body: `
+// ## Overview
 
-ReflexPeak provides short, repeatable browser tests for personal performance practice.
+// ReflexPeak provides short, repeatable browser tests for personal performance practice.
 
-## Features
+// ## Features
 
-- Reaction time and click speed tests.
-- Aim training for mouse control and accuracy.
-- Sequence memory, visual memory and choice reaction exercises.
-- Daily Peak: a rotating challenge across reaction, accuracy and memory.
-- Instant scores and locally stored personal bests and recent results.
+// - Reaction time and click speed tests.
+// - Aim training for mouse control and accuracy.
+// - Sequence memory, visual memory and choice reaction exercises.
+// - Daily Peak: a rotating challenge across reaction, accuracy and memory.
+// - Instant scores and locally stored personal bests and recent results.
 
-## Design considerations
+// ## Design considerations
 
-Clear instructions and repeatable sessions help users compare their progress on the same device. These are entertainment and personal-benchmarking tools, not medical or intelligence assessments.
+// Clear instructions and repeatable sessions help users compare their progress on the same device. These are entertainment and personal-benchmarking tools, not medical or intelligence assessments.
 
-## Try the tests
+// ## Try the tests
 
-[Visit ReflexPeak](https://reflexpeak.com/).
-`.trim(),
-  },
+// [Visit ReflexPeak](https://reflexpeak.com/).
+// `.trim(),
+//   },
   {
     slug: "typingowl",
     title: "TypingOwl",
