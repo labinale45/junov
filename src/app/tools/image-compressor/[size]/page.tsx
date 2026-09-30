@@ -19,7 +19,7 @@ export function generateStaticParams() {
 
 function faqsForPreset(preset: CompressorPreset): ToolFaqItem[] {
   const { label } = preset;
-  return [
+  const faqs = [
     {
       question: `How do I compress an image to ${label}?`,
       answer: `Upload your image and the tool automatically searches for the highest quality that still fits under ${label} — download it as soon as it's done.`,
@@ -31,6 +31,16 @@ function faqsForPreset(preset: CompressorPreset): ToolFaqItem[] {
     },
     { question: `What image formats can I compress to ${label}?`, answer: "JPG, PNG, WebP and AVIF." },
   ];
+
+  if (preset.slug === "compress-to-10mb") {
+    faqs.unshift({
+      question: "How to make an image 10 MB?",
+      answer:
+        "Upload your image to the compressor, keep the target set to 10 MB, and click Compress. It adjusts the image to 10 MB or smaller while preserving the best quality it can. If your original image is already smaller than 10 MB, the tool does not enlarge it.",
+    });
+  }
+
+  return faqs;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -38,14 +48,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const preset = getPresetBySlug(size);
   if (!preset) return { title: "Not found" };
 
-  const title = `Compress Image to ${preset.label} Online Free`;
-  const description = `Compress any JPG, PNG, WebP or AVIF image down to ${preset.label} for free, right in your browser. No upload, no signup — pick your file and download a ${preset.label}-or-smaller result instantly.`;
+  const is10MB = preset.slug === "compress-to-10mb";
+  const title = is10MB ? "How to Make an Image 10 MB Online Free" : `Compress Image to ${preset.label} Online Free`;
+  const description = is10MB
+    ? "Learn how to make an image 10 MB or smaller with a free online image compressor. Set a 10 MB target, keep the best possible quality, and download privately in your browser."
+    : `Compress any JPG, PNG, WebP or AVIF image down to ${preset.label} for free, right in your browser. No upload, no signup — pick your file and download a ${preset.label}-or-smaller result instantly.`;
   const path = `/tools/image-compressor/${preset.slug}`;
 
   return {
     title,
     description,
     keywords: [
+      ...(is10MB ? ["how to make an image 10 mb", "how to make image 10 mb"] : []),
       `compress image to ${preset.label.toLowerCase()}`,
       `reduce image size to ${preset.label.toLowerCase()}`,
       "image compressor",
@@ -86,7 +100,9 @@ export default async function ImageCompressorSizePage({ params }: Props) {
         faqs={faqs}
       />
       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-violet-400">Image Tools</p>
-      <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">Compress Image to {preset.label}</h1>
+      <h1 className="mb-4 text-3xl font-bold text-slate-50 lg:text-4xl">
+        {preset.slug === "compress-to-10mb" ? "How to Make an Image 10 MB or Smaller" : `Compress Image to ${preset.label}`}
+      </h1>
       <p className="mb-8 max-w-2xl text-lg text-slate-400">
         Upload a JPG, PNG, WebP or AVIF image and this tool will automatically target a {preset.label} file size —
         entirely in your browser, nothing is ever uploaded to a server.
